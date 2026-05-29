@@ -8,7 +8,7 @@ public enum ExportMode: String, CaseIterable, Identifiable, Codable {
     public var label: String {
         switch self {
         case .export360Video: return "Export 360° Video"
-        case .attachSpatialAudio: return "Restore Spatial Audio"
+        case .attachSpatialAudio: return "Audio Transfer"
         }
     }
 }

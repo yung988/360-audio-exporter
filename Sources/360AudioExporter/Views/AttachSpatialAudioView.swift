@@ -12,7 +12,7 @@ struct AttachSpatialAudioView: View {
                     .font(.headline)
                     .foregroundColor(.white)
 
-                Text("Choose the finished video you want to keep, for example an 8K export that only has stereo audio. Orbit 360 copies the video stream unchanged and only changes the audio.")
+                Text("Choose the finished video you want to keep, for example an 8K export. Orbit 360 copies the video stream unchanged and only updates the audio.")
                     .font(.caption)
                     .foregroundColor(.gray)
                     .fixedSize(horizontal: false, vertical: true)
@@ -34,13 +34,13 @@ struct AttachSpatialAudioView: View {
                 }
             }
             
-            // 2. Spatial Audio Source Selector
+            // 2. Audio Source Selector
             VStack(alignment: .leading, spacing: 6) {
-                Text("Original camera audio source")
+                Text("Audio source file")
                     .font(.headline)
                     .foregroundColor(.white)
 
-                Text("Choose the original camera file, WAV, or AAC source that still contains the 4-channel spatial/ambisonic audio track.")
+                Text("Choose the original camera file, WAV, AAC, or video source that contains the audio track you want to transfer.")
                     .font(.caption)
                     .foregroundColor(.gray)
                     .fixedSize(horizontal: false, vertical: true)
@@ -54,7 +54,7 @@ struct AttachSpatialAudioView: View {
                     )
                 } else {
                     MediaDropZoneView(
-                        title: "Drop the source file that still has spatial audio",
+                        title: "Drop the source file containing the audio track",
                         allowedExtensions: ["wav", "mp4", "mov", "360", "insv", "m4a", "aac"],
                         mode: .attachSpatialAudio,
                         isSecondary: true
@@ -133,17 +133,17 @@ struct AttachSpatialAudioView: View {
                                     .foregroundColor(.white)
                             }
                             
-                            Text("• Your finished video is copied 1:1, so an 8K export is not re-encoded.\n• Existing stereo can be replaced, kept, or paired with the original ambisonic track.\n• Existing 360° projection metadata is preserved.")
+                            Text("• Your finished video is copied 1:1, so an 8K export is not re-encoded.\n• Existing audio tracks can be replaced, kept, or paired with the new track.\n• Existing 360° projection metadata is preserved.")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                                 .lineSpacing(3)
 
-                            if let audio = appState.spatialAudioSource?.probe?.audioStreams.first(where: { $0.isLikelySpatial }) {
-                                Text("Selected ambisonic track: #\(audio.index), \(audio.channels)ch, \(audio.codec)")
+                            if let audio = appState.spatialAudioSource?.probe?.audioStreams.first {
+                                Text("Selected audio track: #\(audio.index), \(audio.channels)ch, \(audio.codec)\(audio.isLikelySpatial ? " (spatial)" : "")")
                                     .font(.caption2)
                                     .foregroundColor(.green)
                             } else {
-                                Text("No clear 4-channel ambisonic track was found. The first audio track will be used and validation will check the result.")
+                                Text("No audio track was found. Validation will check the result once processed.")
                                     .font(.caption2)
                                     .foregroundColor(.orange)
                             }
@@ -193,7 +193,7 @@ struct AttachSpatialAudioView: View {
                     Button(action: {
                         appState.startExport()
                     }) {
-                        Text("Restore Spatial Audio")
+                        Text("Transfer Audio")
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.horizontal, 24)

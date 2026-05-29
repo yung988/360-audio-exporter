@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orbit 360 - Premium macOS 360° Video Transcoder & Spatial Audio Restorer</title>
-    <meta name="description" content="Orbit 360 is a native macOS application for converting 360° video files, preserving stereo/spatial audio, and restoring spatial audio metadata for VR-ready exports.">
+    <title>Orbit 360 - Native macOS 360° Video Transcoder</title>
+    <meta name="description" content="Orbit 360 is a native macOS transcoder for 360° video. Convert 360° camera footage or equirectangular video into modern formats, with full control over resolution, codec, frame rate, quality, and audio handling.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,6 @@
             <nav class="nav-links" id="nav-links">
                 <a href="#features" class="nav-link">Features</a>
                 <a href="#workflows" class="nav-link">Workflows</a>
-                <a href="#cameras" class="nav-link">Cameras</a>
                 <a href="#install" class="nav-link">Installation</a>
                 <a href="#license" class="nav-link">License</a>
                 <a href="#faq" class="nav-link">FAQ</a>
@@ -44,9 +43,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <div class="badge" id="hero-badge">Native macOS App</div>
-                <h1 class="hero-title" id="hero-heading">Fast 360° Transcoding & Spatial Audio Restoration</h1>
+                <h1 class="hero-title" id="hero-heading">Orbit 360</h1>
                 <p class="hero-subtitle" id="hero-sub">
-                    A native, high-performance macOS tool designed specifically for VR creators. Convert 360° camera source files, batch process footage, and restore stripped spatial audio streams into finished edits without re-encoding video.
+                    A native macOS transcoder for 360° video.<br><br>
+                    Convert 360° camera footage or equirectangular video into modern formats, with full control over resolution, codec, frame rate, quality, and audio handling.
                 </p>
                 <div class="hero-actions">
                     <a href="https://github.com/yung988/Orbit-360/releases/download/v1.0.0/Orbit360.dmg" class="btn btn-primary btn-lg" id="hero-download-btn">
@@ -73,51 +73,51 @@
     <section class="features" id="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title" id="features-title">Smarter VR Processing</h2>
-                <p class="section-subtitle">Orbit 360 solves critical hurdles in the VR editing pipeline. Work with raw camera files, preserve spatial audio, and verify metadata formats with a clean, lightweight interface.</p>
+                <h2 class="section-title" id="features-title">Smarter VR & 360° Video Transcoding</h2>
+                <p class="section-subtitle">Orbit 360 helps you prepare 360° video for editing, playback, sharing or VR viewing. Drop in a 360° video file, inspect its technical details, choose your export settings, and decide how audio should be handled.</p>
             </div>
             
             <div class="features-grid" id="features-container">
                 <!-- Feature 1 -->
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="video"></i></div>
-                    <h3 class="feature-title">Multi-Format Support</h3>
-                    <p class="feature-desc">Read native camera files (like GoPro <code>.360</code> and Insta360 <code>.insv</code>) or standard exports, and transcode into MP4, M4V, MOV, Matroska (MKV), or WebM containers.</p>
+                    <h3 class="feature-title">Convert 360° Video</h3>
+                    <p class="feature-desc">Transcode 360° camera footage or equirectangular exports into standard video formats.</p>
                 </div>
                 
                 <!-- Feature 2 -->
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="music-4"></i></div>
-                    <h3 class="feature-title">Flexible Audio Configurations</h3>
-                    <p class="feature-desc">Detect and handle 4-channel spatial fields (Ambisonics), 2-channel stereo, mono, or original multi-track streams (such as 6-channel layouts). Downmix, copy, or encode with ease.</p>
+                    <div class="feature-icon"><i data-lucide="sliders"></i></div>
+                    <h3 class="feature-title">Control Export Settings</h3>
+                    <p class="feature-desc">Choose output format, codec, resolution, frame rate, bitrate, and quality settings.</p>
                 </div>
                 
                 <!-- Feature 3 -->
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="sparkles"></i></div>
-                    <h3 class="feature-title">No Video Re-Encoding</h3>
-                    <p class="feature-desc">When restoring spatial audio, Orbit 360 copies the video stream 1:1. This guarantees zero quality loss and yields blazing-fast processing speeds.</p>
+                    <div class="feature-icon"><i data-lucide="music-4"></i></div>
+                    <h3 class="feature-title">Flexible Audio Handling</h3>
+                    <p class="feature-desc">Keep original audio, export stereo, preserve multichannel/spatial tracks when available, or remove audio when needed.</p>
                 </div>
                 
                 <!-- Feature 4 -->
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="refresh-cw"></i></div>
-                    <h3 class="feature-title">Hardware Acceleration</h3>
-                    <p class="feature-desc">Leverages Apple VideoToolbox (H.264 & HEVC/H.265 hardware encoders) for optimal encoding speeds on macOS with minimal CPU overhead.</p>
+                    <div class="feature-icon"><i data-lucide="share-2"></i></div>
+                    <h3 class="feature-title">Audio Transfer</h3>
+                    <p class="feature-desc">Copy audio from a source file into an already exported video without re-encoding the video stream when possible.</p>
                 </div>
 
                 <!-- Feature 5 -->
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="list-video"></i></div>
-                    <h3 class="feature-title">Batch Queue</h3>
-                    <p class="feature-desc">Drag and drop up to 20 videos at once. Queue them up with custom parameters for output codec, resolution, quality, or framerate, then batch transcode them in one click.</p>
+                    <div class="feature-icon"><i data-lucide="eye"></i></div>
+                    <h3 class="feature-title">Inspect and Verify</h3>
+                    <p class="feature-desc">Read video and audio stream information before export and verify the output after processing.</p>
                 </div>
 
                 <!-- Feature 6 -->
                 <div class="feature-card">
-                    <div class="feature-icon"><i data-lucide="badge-check"></i></div>
-                    <h3 class="feature-title">Integrated VR Validator</h3>
-                    <p class="feature-desc">Automatically validates outputs using <code>ffprobe</code> to confirm spatial layout, audio channels, and equirectangular projection tags before you upload to YouTube VR or Meta Quest.</p>
+                    <div class="feature-icon"><i data-lucide="cpu"></i></div>
+                    <h3 class="feature-title">Camera-Agnostic Workflow</h3>
+                    <p class="feature-desc">Designed for common 360° camera exports and standard media files, not tied to one camera brand.</p>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
                         <span class="step-num">Mode 01</span> Convert 360° Video
                     </button>
                     <button class="simulator-tab" data-step="2" id="tab-step-2">
-                        <span class="step-num">Mode 02</span> Restore Spatial Audio
+                        <span class="step-num">Mode 02</span> Audio Transfer
                     </button>
                     <button class="simulator-tab" data-step="3" id="tab-step-3">
                         <span class="step-num">Step 03</span> Batch & Transcode
@@ -155,8 +155,8 @@
                             <p>Transcode camera footage and master files with extensive control over video encoding, resolution scaling, frame rates, and audio mapping.</p>
                             <ul class="step-bullets">
                                 <li><strong>Video Codecs:</strong> Hardware-accelerated H.264 (VideoToolbox), HEVC (VideoToolbox), ProRes 422, VP9, or copy directly without re-encoding.</li>
-                                <li><strong>Scaling & Resolution:</strong> Same as source, 8K (7680x3840), 5.7K (5760x2880), 5K, 4K, 3K, 2K, or fully custom resolutions.</li>
-                                <li><strong>Audio Handling:</strong> Downmix multi-channel feeds to Stereo (AAC), preserve 4-channel Ambisonics (AAC at up to 768 kbps), copy original raw audio tracks (including 6-channel formats), or remove audio completely.</li>
+                                <li><strong>Scaling & Resolution:</strong> Same as source, 8K (7680x3840), 5.7K (5760x2880), 5K, 4K, 3K, 2K, or custom resolutions.</li>
+                                <li><strong>Audio Handling:</strong> Downmix multi-channel feeds to Stereo (AAC), preserve spatial formats (AAC at up to 768 kbps), copy original raw audio tracks, or remove audio completely.</li>
                                 <li><strong>Framerate Control:</strong> Keep source rates or target film-standard 23.98 fps, 29.97 fps, 50 fps, or 60 fps.</li>
                             </ul>
                         </div>
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="setting-item-sim">
                                     <span>Audio Mode</span>
-                                    <div class="fake-select">Ambisonic audio (4ch) <i data-lucide="chevron-down"></i></div>
+                                    <div class="fake-select">Stereo or Spatial <i data-lucide="chevron-down"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -185,12 +185,12 @@
                     <!-- Step 2 -->
                     <div class="simulator-step-pane" id="step-pane-2">
                         <div class="pane-text">
-                            <h3>Restore Spatial Audio</h3>
-                            <p>Often, video editors (like Premiere or Resolve) compress spatial audio to stereo or strip VR tags when exporting graded masters. This mode solves this by merging the raw audio back into your finished edit.</p>
+                            <h3>Audio Transfer</h3>
+                            <p>Copy audio from a source file into an existing video export. Useful when you already have a finished video file and want to replace or add the correct audio track (stereo, original camera audio, multi-channel, or spatial) without re-encoding the video when possible.</p>
                             <ul class="step-bullets">
                                 <li><strong>1:1 Video Stream Copy:</strong> The finished, graded video is copied directly without re-encoding—preserving 100% of the video quality and completing in seconds.</li>
-                                <li><strong>Diverse Audio Formats:</strong> Import 4-channel spatial sound fields, standard dual-channel stereo, mono, or multi-track feeds directly from GoPro, Insta360 camera files, or external WAV/AAC masters.</li>
-                                <li><strong>Flexible Mapping:</strong> Choose to replace, keep, or pair the original ambisonic track alongside existing tracks.</li>
+                                <li><strong>Diverse Audio Formats:</strong> Import multichannel fields, standard stereo, mono, or multi-track feeds directly from camera files, recorders, or external WAV/AAC masters.</li>
+                                <li><strong>Flexible Mapping:</strong> Choose to replace the existing video stream's audio, or keep it and pair it with the new track.</li>
                                 <li><strong>VR Tags Intact:</strong> Existing equirectangular metadata is automatically detected and preserved.</li>
                             </ul>
                         </div>
@@ -206,8 +206,8 @@
                                 <div class="validation-card-sim pass" style="background: rgba(236, 72, 153, 0.05); border-color: rgba(236, 72, 153, 0.2);">
                                     <i data-lucide="music" class="val-icon-pass" style="color: var(--secondary);"></i>
                                     <div>
-                                        <h4>Original Spatial Audio Source</h4>
-                                        <p>RAW_GOPRO_0023.360 (4-Channel Ambisonics)</p>
+                                        <h4>Original Audio Source</h4>
+                                        <p>camera_source.mp4 (4-Channel Spatial Audio)</p>
                                     </div>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
                             <p>Don't waste hours uploading bad files. When a job finishes, Orbit 360 immediately probes the output file and displays a post-export checklist to guarantee full VR compatibility.</p>
                             <ul class="step-bullets">
                                 <li>Checks projection metadata: Verifies correct "equirectangular" tagging for VR players.</li>
-                                <li>Checks audio stream properties: Audits channel count (4 channels) and maps the layout.</li>
+                                <li>Checks audio stream properties: Audits channel count and maps the layout.</li>
                                 <li>Confirms file containers and stream alignments.</li>
                                 <li>Warns of potential configuration errors immediately in the UI.</li>
                             </ul>
@@ -269,8 +269,8 @@
                                 <div class="validation-card-sim pass">
                                     <i data-lucide="check-circle" class="val-icon-pass"></i>
                                     <div>
-                                        <h4>Audio Stream: 4-Channel Ambisonics</h4>
-                                        <p>VALID - 4 channels detected (AAC AMB_FORMAT).</p>
+                                        <h4>Audio Stream Properties</h4>
+                                        <p>VALID - Output audio channels and codecs verified.</p>
                                     </div>
                                 </div>
                             </div>
@@ -281,58 +281,58 @@
         </div>
     </section>
 
-    <!-- Supported Cameras & Pipelines -->
-    <section class="cameras" id="cameras" style="padding: 100px 0; background: radial-gradient(circle at 90% 20%, rgba(236, 72, 153, 0.08) 0%, transparent 60%); border-top: 1px solid rgba(255, 255, 255, 0.03);">
+    <!-- Format & Audio Compatibility -->
+    <section class="cameras" id="compatibility" style="padding: 100px 0; background: radial-gradient(circle at 90% 20%, rgba(236, 72, 153, 0.08) 0%, transparent 60%); border-top: 1px solid rgba(255, 255, 255, 0.03);">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Supported Cameras & Production Pipelines</h2>
-                <p class="section-subtitle">Orbit 360 works with raw media formats and outputs from various 360° camera systems (GoPro, Insta360, Ricoh Theta, KanDao) and external field recorders.</p>
+                <h2 class="section-title">Format & Audio Compatibility</h2>
+                <p class="section-subtitle">Orbit 360 works with standard equirectangular videos, common 360° camera exports, and professional field recorders.</p>
             </div>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
-                <!-- General Requirement -->
+                <!-- Audio Handling -->
                 <div class="feature-card" style="background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a78bfa; margin-bottom: 0.5rem; font-weight: 600;">Audio Format Requirements</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Single Multi-Channel Stream</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Orbit 360 expects spatial audio to be stored as a <strong>single audio stream</strong> containing 4 or more channels. If your camera or external microphone records audio as multiple separate mono tracks (e.g. 4 separate tracks), they must be merged/muxed into a single quad track first.</p>
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a78bfa; margin-bottom: 0.5rem; font-weight: 600;">Flexible Audio Handling</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Multi-channel & Spatial</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Orbit 360 preserves multichannel spatial sound fields, stereo streams, or original tracks. When supported by the selected format, you can transcode, pass through, or strip audio streams.</p>
                 </div>
 
-                <!-- Channel Mapping -->
+                <!-- Video stream copy -->
                 <div class="feature-card" style="background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.3);">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #f472b6; margin-bottom: 0.5rem; font-weight: 600;">Spatial Orientation</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">AmbiX (ACN/SN3D) Mapping</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">For spatial panning to rotate correctly with the viewer's head movements in VR, audio channels must follow the <strong>AmbiX layout</strong> (Channel 1: W, Channel 2: Y, Channel 3: Z, Channel 4: X). Convert alternative formats (like FuMa or A-format) before importing.</p>
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #f472b6; margin-bottom: 0.5rem; font-weight: 600;">Lossless Video Transfer</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">No Video Re-Encoding</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">When attaching or replacing an audio track in Audio Transfer mode, the video stream is copied 1:1. This guarantees zero quality loss and runs almost instantly.</p>
                 </div>
 
-                <!-- Camera Pipeline -->
+                <!-- Technical validation -->
                 <div class="feature-card">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">Stitching & Editing</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Camera Muxing & NLEs</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Process stitching (GoPro Player, Insta360 Studio) first. Since NLEs like Premiere Pro or DaVinci Resolve strip spatial metadata on export, use Orbit 360 as the final step to merge your high-quality video edit with the camera's original audio.</p>
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">Analysis & Insights</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Stream Inspection</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Inspect technical metadata before you transcode or transfer. Read codec, resolution, frame rate, and channel layouts directly from the interface.</p>
                 </div>
 
-                <!-- External Recorders -->
+                <!-- Self-contained design -->
                 <div class="feature-card">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a5b4fc; margin-bottom: 0.5rem; font-weight: 600;">Professional Gear</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Dedicated Spatial Mics</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">For high-end setups (using Ricoh Theta Z1 built-in mics or external recorders like the <strong>Zoom H3-VR</strong>), Orbit 360 easily maps 4-channel spatial sound fields directly into your final render and injects required playback tags.</p>
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a5b4fc; margin-bottom: 0.5rem; font-weight: 600;">Self-Contained</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">No External Dependencies</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Orbit 360 includes bundled, static macOS binaries of FFmpeg and FFprobe, meaning it works immediately out of the box with no extra installations.</p>
                 </div>
             </div>
 
-            <!-- The Editing Problem Info -->
+            <!-- How Orbit 360 works -->
             <div class="glass" style="border-radius: 20px; padding: 3rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center;">
                 <div>
                     <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-family: var(--font-heading);">How Orbit 360 Handles Audio Streams</h3>
-                    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">When editing or grading 360° videos in post-production software, spatial audio configurations are easily flattened. Orbit 360 handles spatial audio by letting you select the finished video and a secondary source that has the spatial track.</p>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Our utility uses <code>ffprobe</code> to analyze audio configurations, finding the stream with 4 or more channels. It copy-pastes the video track 1:1 to preserve original 8K or 4K encoding, merges the selected multi-channel spatial audio stream, and injects spatial 3D metadata so VR platforms play the audio correctly.</p>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">When editing or grading 360° videos in editing software, spatial audio configuration or multi-track details can easily be lost or downmixed on export. Orbit 360 lets you select the finished video and an audio source containing the original tracks to merge them together.</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Our utility uses <code>ffprobe</code> to analyze audio configurations. It copy-pastes the video track 1:1 to preserve the original master encoding, merges the selected audio stream, and preserves spherical/360° metadata for correct playback in VR players.</p>
                 </div>
                 <div style="background: rgba(10, 8, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem;">
-                    <h4 style="font-family: var(--font-heading); color: var(--text-highlight); font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="help-circle" style="color: var(--secondary);"></i> Audio checklist for Orbit 360:</h4>
+                    <h4 style="font-family: var(--font-heading); color: var(--text-highlight); font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="help-circle" style="color: var(--secondary);"></i> Audio Transfer checklist:</h4>
                     <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; color: var(--text-muted);">
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Ensure spatial audio is packaged in a <strong>single multi-channel track</strong>.</li>
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Mux separate mono tracks into a single 4-channel file first if necessary.</li>
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Arrange channels using the <strong>AmbiX (ACN/SN3D)</strong> mapping standard.</li>
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Let Orbit 360 restore this multi-channel layout and write proper metadata.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Choose the finished master video as the main input.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Choose the camera file, WAV, or AAC containing your target audio.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Select whether to replace or append the audio track.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Run the transfer to create a copy without video re-encoding.</li>
                     </ul>
                 </div>
             </div>
@@ -343,43 +343,46 @@
     <section class="install" id="install">
         <div class="container install-container">
             <div class="install-text">
-                <h2 class="section-title align-left" id="install-title">Quick Installation</h2>
-                <p>Orbit 360 requires <strong>macOS 13 Ventura</strong> or newer. It uses the powerful FFmpeg engine under the hood to perform high-speed conversions.</p>
+                <h2 class="section-title align-left" id="install-title">Self-Contained Installation</h2>
+                <p>Orbit 360 requires <strong>macOS 13 Ventura</strong> or newer. It is fully self-contained and does not require external setup or terminal commands to run.</p>
                 
                 <div class="setup-steps">
                     <div class="setup-step">
                         <div class="step-number">1</div>
                         <div>
-                            <h4>Install FFmpeg</h4>
-                            <p>The easiest way is to install via Homebrew. Run this command in Terminal:</p>
-                            <div class="code-block-wrapper">
-                                <code>brew install ffmpeg</code>
-                                <button class="btn-copy-code" data-code="brew install ffmpeg" id="copy-btn-brew"><i data-lucide="copy"></i></button>
-                            </div>
+                            <h4>Download the App</h4>
+                            <p>Download the latest disk image for macOS by clicking the button below.</p>
+                            <a href="https://github.com/yung988/Orbit-360/releases/download/v1.0.0/Orbit360.dmg" class="btn btn-primary" id="install-download-btn" style="margin-top: 0.5rem; display: inline-flex;">
+                                <i data-lucide="download"></i> Download Orbit360.dmg
+                            </a>
                         </div>
                     </div>
                     
                     <div class="setup-step">
                         <div class="step-number">2</div>
                         <div>
-                            <h4>Download & Run Orbit 360</h4>
-                            <p>Download the latest release, drag Orbit 360 to your Applications folder, and configure path overrides in the app Settings if necessary.</p>
-                            <a href="https://github.com/yung988/Orbit-360/releases/download/v1.0.0/Orbit360.dmg" class="btn btn-primary" id="install-download-btn">
-                                <i data-lucide="download"></i> Download Orbit360.dmg
-                            </a>
+                            <h4>Drag to Applications</h4>
+                            <p>Open the downloaded <code>.dmg</code> file and drag Orbit 360 into your <code>Applications</code> folder. You're ready to transcode!</p>
+                        </div>
+                    </div>
+
+                    <div class="setup-step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>Custom Overrides (Optional)</h4>
+                            <p>While static FFmpeg and FFprobe binaries are bundled inside, advanced users can still specify their own system-installed executable paths in the app Settings.</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="install-box glass">
-                <h3>Bundled Binaries</h3>
-                <p>Are you deploying/redistributing or prefer static binaries without installing Homebrew?</p>
-                <p>You can bundle FFmpeg directly inside the application folder before packaging.</p>
+                <h3>Building from Source</h3>
+                <p>Are you building Orbit 360 yourself? You can fetch static macOS binaries and bundle them inside the application using our scripts:</p>
                 <div class="terminal-box">
                     <span class="term-dot red"></span>
                     <span class="term-dot yellow"></span>
                     <span class="term-dot green"></span>
-                    <pre class="term-content"><code># Download static macOS binaries
+                    <pre class="term-content"><code># Download static macOS binaries into Resources/
 ./scripts/download_ffmpeg_macos.sh
 
 # Compile universal app bundles

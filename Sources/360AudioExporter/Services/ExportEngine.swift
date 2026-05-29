@@ -58,7 +58,7 @@ public final class LiveExportEngine: ExportEngine {
                                 estimatedRemainingSeconds: eta,
                                 speed: speed,
                                 stage: job.mode == .attachSpatialAudio ? "Merging streams" : "Encoding video",
-                                message: job.mode == .attachSpatialAudio ? "Attaching ambisonic audio..." : "Exporting 360° video...",
+                                message: job.mode == .attachSpatialAudio ? "Transferring audio track..." : "Exporting 360° video...",
                                 detail: commandBuilder.summary(for: job)
                             )
                             continuation.yield(progress)

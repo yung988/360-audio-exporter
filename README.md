@@ -1,65 +1,55 @@
 # Orbit 360
 
-A simple 360° video transcoder for VR-ready exports.
+A native macOS transcoder for 360° video.
 
-Convert 360° video from camera files or equirectangular exports into modern formats, with stereo, original, or spatial audio intact.
+Convert 360° camera footage or equirectangular video into modern formats, with full control over resolution, codec, frame rate, quality, and audio handling.
 
-Orbit 360 is a native macOS tool for converting 360° video into clean, VR-ready exports. Drop in a 360° camera file or an equirectangular video, choose your output format, resolution, codec, frame rate, and audio mode, then export a file ready for playback, editing, sharing, or VR viewing.
+Orbit 360 helps you prepare 360° video for editing, playback, sharing, or VR viewing. Drop in a 360° video file, inspect its technical details, choose your export settings, and decide how audio should be handled — keep the original track, create stereo audio, preserve multichannel/spatial audio when available, or attach audio from another source file.
 
-Orbit 360 can preserve original audio, export stereo audio, keep 4-channel spatial/ambisonic audio intact, or restore spatial audio by copying it from the original camera file into an already exported video.
+The application is fully self-contained and comes pre-bundled with static `ffmpeg` and `ffprobe` binaries, requiring no external installation or command-line setup.
 
 This project is open source and currently in early MVP/alpha stage.
 
 ## Reasons You'll Love Orbit 360
 
-- Convert 360° video into modern formats.
-- Preserve stereo, original, or spatial audio.
-- Restore spatial audio from source footage into finished stereo exports.
-- Queue up to 20 videos and export them as a sequential batch.
-- Create VR-ready equirectangular video files.
-- Verify resolution, frame rate, codecs, audio channels, and metadata before export.
-- Use a native macOS interface.
-- Keep the workflow simple with no timeline and no editing clutter.
+- **Convert 360° video** into standard video formats.
+- **Control export settings**: output format, codec, resolution, frame rate, bitrate, and quality.
+- **Flexible audio handling**: keep original audio, export stereo, preserve multichannel/spatial tracks when available, or remove audio completely.
+- **Audio transfer**: copy audio from a source file into an already exported video without re-encoding the video stream when possible.
+- **Inspect and verify**: read video and audio stream details before export and verify the output after processing.
+- **Camera-agnostic workflow**: designed for common 360° camera exports and standard media files, not tied to one camera brand.
+- **Fully self-contained**: pre-bundled with FFmpeg and FFprobe binaries—no Homebrew or external setup required.
 
-## Typical Workflow
+## Typical Workflows
 
-1. Drop in a 360° camera file or equirectangular export.
-2. Choose output format, resolution, codec, frame rate, and audio mode.
-3. Queue up to 20 videos when you need a batch export.
-4. Export clean VR-ready files.
-5. Check validation before playback, editing, sharing, or VR viewing.
+### 1. Convert 360° Video
+Drop in a 360° camera export or equirectangular file, choose your export container, video codec, scaling, and frame rate, and decide how the audio stream should be processed (keep original, mix down to stereo, preserve spatial layouts, or strip audio).
+
+### 2. Audio Transfer
+Copy audio from a source file into an existing video export. This is useful when you already have a finished video master and want to replace or add the correct audio track (stereo, multi-channel, or spatial/ambisonic) without re-encoding the video stream.
 
 ## Requirements
 
 - macOS 13 Ventura or newer
 - Apple Silicon or Intel Mac
-- Swift 5.9+
-- `ffmpeg` and `ffprobe`
 
-Install ffmpeg with Homebrew:
+## For Developers & Maintainers
 
-```bash
-brew install ffmpeg
-```
+Orbit 360 is built with Swift 5.9+. If you are compiling from source or packaging releases:
 
-The app looks for binaries in `/opt/homebrew/bin`, `/usr/local/bin`, and `/usr/bin`. You can override paths in Settings.
-
-Without Homebrew, download an ffmpeg build from https://ffmpeg.org/download.html, then select the `ffmpeg` and `ffprobe` binaries in Settings.
-
-Release maintainers can also bundle binaries by placing executable files at `Resources/ffmpeg` and `Resources/ffprobe` before running `./create_app.sh`.
-
-For convenience, maintainers can fetch redistributable static macOS binaries before packaging:
+### Fetching FFmpeg Binaries
+To build the application yourself and bundle the required binaries:
 
 ```bash
+# Download static macOS binaries into Resources/
 ./scripts/download_ffmpeg_macos.sh
-swift build -c release --arch arm64
-swift build -c release --arch x86_64
-./create_app.sh
 ```
 
-Bundled FFmpeg binaries are third-party software. See `THIRD_PARTY_NOTICES.md`.
+If you prefer to use system-installed binaries (e.g. from Homebrew), you can change path overrides in the app Settings.
 
-## Build
+### Build and Run
+
+Build from command line:
 
 ```bash
 swift build
@@ -71,7 +61,7 @@ Run from Swift Package Manager:
 swift run Orbit360
 ```
 
-Create a local `.app` bundle and `.dmg`:
+Create a local `.app` bundle and `.dmg` installer:
 
 ```bash
 swift build -c release --arch arm64
@@ -79,12 +69,14 @@ swift build -c release --arch x86_64
 ./create_app.sh
 ```
 
+Bundled FFmpeg binaries are third-party software. See `THIRD_PARTY_NOTICES.md`.
+
 ## Notes
 
-- Orbit 360 does not implement camera stitching or a custom video decoder.
-- GoPro `.360` and Insta360 `.insv` support depends on what the installed ffmpeg build can read.
-- Four audio channels are treated as likely ambisonic / spatial audio, but some VR platforms may also require platform-specific metadata.
+- Orbit 360 does not perform camera stitching or implement a custom video decoder.
+- Video container and codec compatibility depends on the capabilities of the bundled or configured FFmpeg binaries.
+- Advanced metadata tags are preserved when using stream copying.
 
 ## License
 
-MIT
+Released under the MIT License. See [LICENSE](file:///Users/jangajdos/Desktop/opensourceapp/LICENSE) for details.

@@ -46,8 +46,8 @@ struct SidebarView: View {
             }) {
                 SidebarButtonContent(
                     iconName: "waveform.circle",
-                    title: "Restore Spatial Audio",
-                    subtitle: "Replace stereo with original ambisonic audio",
+                    title: "Audio Transfer",
+                    subtitle: "Copy or replace audio without video re-encoding",
                     isSelected: appState.selectedMode == .attachSpatialAudio && !showSettings
                 )
             }

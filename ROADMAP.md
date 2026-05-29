@@ -4,7 +4,7 @@
 
 - Native SwiftUI macOS app.
 - Export 360 video through ffmpeg.
-- Attach 4-channel spatial audio to finished videos.
+- Transfer or replace audio tracks on finished videos (Audio Transfer).
 - Show source metadata, stream info, progress, ETA, and post-export validation.
 
 ## Next

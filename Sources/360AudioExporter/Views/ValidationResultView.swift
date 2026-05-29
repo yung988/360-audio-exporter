@@ -79,9 +79,9 @@ struct ValidationResultView: View {
                         Text("Audio channels:")
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("\(result.channels) ch (\(result.channels == 4 ? "Ambisonic" : "Standard"))")
+                        Text("\(result.channels) ch (\(result.channels == 4 ? "Spatial/Ambisonic" : (result.channels == 2 ? "Stereo" : (result.channels == 1 ? "Mono" : "Multichannel"))))")
                             .fontWeight(.semibold)
-                            .foregroundColor(result.channels >= 4 ? .green : .orange)
+                            .foregroundColor(result.channels > 0 ? .green : .orange)
                     }
                     
                     HStack {

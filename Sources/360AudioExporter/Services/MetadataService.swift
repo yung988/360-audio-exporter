@@ -50,9 +50,13 @@ public final class MetadataService {
         var warnings: [String] = []
         
         // 1. Audio channels warning
-        let expectsSpatial = expectedJob.mode == .attachSpatialAudio || expectedJob.settings.audioMode == .spatialFourChannelAAC
-        if expectsSpatial && spatialAudio == nil {
-            warnings.append("The exported audio is not 4-channel ambisonic audio. It contains \(channels) channel(s), so it may have been downmixed to stereo.")
+        if expectedJob.mode == .attachSpatialAudio {
+            let expectedChannels = expectedJob.secondarySource?.probe?.audioStreams.first?.channels ?? 0
+            if expectedChannels > 0 && channels != expectedChannels {
+                warnings.append("The exported audio channel count (\(channels)) does not match the source audio channel count (\(expectedChannels)).")
+            }
+        } else if expectedJob.settings.audioMode == .spatialFourChannelAAC && channels < 4 {
+            warnings.append("The exported audio is not 4-channel spatial audio (detected \(channels) channels).")
         }
         
         // 2. Spherical metadata warning

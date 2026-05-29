@@ -197,7 +197,7 @@ public final class AppState: ObservableObject {
         }
 
         guard let jobs = makeExportJobs(), !jobs.isEmpty else {
-            self.errorMessage = selectedMode == .export360Video ? "Choose a 360° input video first." : "Choose both a finished video and an original ambisonic audio source."
+            self.errorMessage = selectedMode == .export360Video ? "Choose a 360° input video first." : "Choose both a finished video and an audio source file."
             return
         }
         
@@ -295,7 +295,7 @@ public final class AppState: ObservableObject {
     private func makeExportJob(inputAsset: MediaAsset, secondaryAsset: MediaAsset?) -> ExportJob {
         let targetFolder = exportSettings.destinationFolder ?? inputAsset.url.deletingLastPathComponent()
         let baseName = inputAsset.url.deletingPathExtension().lastPathComponent
-        let suffix = selectedMode == .export360Video ? "_360_export" : "_spatial"
+        let suffix = selectedMode == .export360Video ? "_360_export" : "_transfer"
         let outputURL = targetFolder.appendingPathComponent("\(baseName)\(suffix).\(exportSettings.outputFormat.rawValue)")
 
         return ExportJob(
