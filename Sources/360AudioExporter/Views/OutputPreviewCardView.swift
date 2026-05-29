@@ -10,61 +10,16 @@ struct OutputPreviewCardView: View {
                 .fontWeight(.semibold)
                 .foregroundColor(.white)
             
-            // Sphere wireframe drawing
             ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.black.opacity(0.4))
-                    .frame(height: 160)
-                
-                // Globe Wireframe drawing
-                Canvas { context, size in
-                    let w = size.width
-                    let h = size.height
-                    let cx = w / 2
-                    let cy = h / 2
-                    let r = min(w, h) * 0.4
-                    
-                    // Base Circle
-                    context.stroke(
-                        Path(ellipseIn: CGRect(x: cx - r, y: cy - r, width: r * 2, height: r * 2)),
-                        with: .color(.gray.opacity(0.35)),
-                        lineWidth: 1
-                    )
-                    
-                    // Vertical Ellipses (meridians)
-                    for factor in [0.25, 0.5, 0.75] {
-                        let ew = r * 2 * factor
-                        context.stroke(
-                            Path(ellipseIn: CGRect(x: cx - ew / 2, y: cy - r, width: ew, height: r * 2)),
-                            with: .color(.gray.opacity(0.25)),
-                            lineWidth: 1
-                        )
-                    }
-                    
-                    // Horizontal Ellipses (parallels)
-                    for factor in [0.25, 0.5, 0.75] {
-                        let eh = r * 2 * factor
-                        context.stroke(
-                            Path(ellipseIn: CGRect(x: cx - r, y: cy - eh / 2, width: r * 2, height: eh)),
-                            with: .color(.gray.opacity(0.25)),
-                            lineWidth: 1
-                        )
-                    }
-                    
-                    // Center lines
-                    var horizontalLine = Path()
-                    horizontalLine.move(to: CGPoint(x: cx - r, y: cy))
-                    horizontalLine.addLine(to: CGPoint(x: cx + r, y: cy))
-                    context.stroke(horizontalLine, with: .color(.gray.opacity(0.35)), lineWidth: 1)
-                    
-                    var verticalLine = Path()
-                    verticalLine.move(to: CGPoint(x: cx, y: cy - r))
-                    verticalLine.addLine(to: CGPoint(x: cx, y: cy + r))
-                    context.stroke(verticalLine, with: .color(.gray.opacity(0.35)), lineWidth: 1)
+                VideoThumbnailView(
+                    asset: previewAsset,
+                    ffmpegPath: appState.ffmpegPath,
+                    height: 160,
+                    cornerRadius: 8
+                ) {
+                    SpherePlaceholderView()
                 }
-                .frame(height: 160)
                 
-                // Play Icon overlay
                 Image(systemName: "play.fill")
                     .font(.title)
                     .foregroundColor(.white)
@@ -99,5 +54,65 @@ struct OutputPreviewCardView: View {
         let settings = appState.exportSettings
         let resolution = settings.effectiveResolution.map { "\($0.width) x \($0.height)" } ?? "původní rozlišení"
         return "\(settings.outputFormat.label), \(resolution), \(settings.effectiveVideoBitrate), \(settings.audioMode.label)."
+    }
+
+    private var previewAsset: MediaAsset? {
+        switch appState.selectedMode {
+        case .export360Video:
+            return appState.inputVideo
+        case .attachSpatialAudio:
+            return appState.renderedVideo
+        }
+    }
+}
+
+private struct SpherePlaceholderView: View {
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.black.opacity(0.4))
+
+            Canvas { context, size in
+                let w = size.width
+                let h = size.height
+                let cx = w / 2
+                let cy = h / 2
+                let r = min(w, h) * 0.4
+
+                context.stroke(
+                    Path(ellipseIn: CGRect(x: cx - r, y: cy - r, width: r * 2, height: r * 2)),
+                    with: .color(.gray.opacity(0.35)),
+                    lineWidth: 1
+                )
+
+                for factor in [0.25, 0.5, 0.75] {
+                    let ew = r * 2 * factor
+                    context.stroke(
+                        Path(ellipseIn: CGRect(x: cx - ew / 2, y: cy - r, width: ew, height: r * 2)),
+                        with: .color(.gray.opacity(0.25)),
+                        lineWidth: 1
+                    )
+                }
+
+                for factor in [0.25, 0.5, 0.75] {
+                    let eh = r * 2 * factor
+                    context.stroke(
+                        Path(ellipseIn: CGRect(x: cx - r, y: cy - eh / 2, width: r * 2, height: eh)),
+                        with: .color(.gray.opacity(0.25)),
+                        lineWidth: 1
+                    )
+                }
+
+                var horizontalLine = Path()
+                horizontalLine.move(to: CGPoint(x: cx - r, y: cy))
+                horizontalLine.addLine(to: CGPoint(x: cx + r, y: cy))
+                context.stroke(horizontalLine, with: .color(.gray.opacity(0.35)), lineWidth: 1)
+
+                var verticalLine = Path()
+                verticalLine.move(to: CGPoint(x: cx, y: cy - r))
+                verticalLine.addLine(to: CGPoint(x: cx, y: cy + r))
+                context.stroke(verticalLine, with: .color(.gray.opacity(0.35)), lineWidth: 1)
+            }
+        }
     }
 }

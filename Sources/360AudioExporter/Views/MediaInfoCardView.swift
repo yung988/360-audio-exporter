@@ -11,24 +11,30 @@ struct MediaInfoCardView: View {
         HStack(alignment: .top, spacing: 16) {
             // Thumbnail / Icon representation
             ZStack(alignment: .topTrailing) {
-                // Background representation
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(LinearGradient(
-                        colors: [Color.blue.opacity(0.2), Color.purple.opacity(0.2)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ))
-                    .frame(width: 140, height: 95)
-                    .overlay(
-                        VStack(spacing: 4) {
-                            Image(systemName: asset.fileType == .audio ? "waveform" : "video")
-                                .font(.title)
-                                .foregroundColor(.white.opacity(0.8))
-                            Text(asset.fileType.rawValue)
-                                .font(.caption2)
-                                .foregroundColor(.white.opacity(0.6))
-                        }
-                    )
+                VideoThumbnailView(
+                    asset: asset,
+                    ffmpegPath: appState.ffmpegPath,
+                    height: 95,
+                    cornerRadius: 8
+                ) {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(LinearGradient(
+                            colors: [Color.blue.opacity(0.2), Color.purple.opacity(0.2)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ))
+                        .overlay(
+                            VStack(spacing: 4) {
+                                Image(systemName: asset.fileType == .audio ? "waveform" : "video")
+                                    .font(.title)
+                                    .foregroundColor(.white.opacity(0.8))
+                                Text(asset.fileType.rawValue)
+                                    .font(.caption2)
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                        )
+                }
+                .frame(width: 140)
                 
                 // 360 Badge
                 if asset.fileType == .video360 {
