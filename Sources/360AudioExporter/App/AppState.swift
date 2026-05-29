@@ -32,6 +32,7 @@ public final class AppState: ObservableObject {
     private let ffprobeService: MediaProbeService
     private let exportEngine: ExportEngine
     private let metadataService: MetadataService
+    private let commandBuilder = FFmpegCommandBuilder()
     private var exportTask: Task<Void, Never>?
     
     public init(
@@ -77,6 +78,11 @@ public final class AppState: ObservableObject {
     
     public var isFfprobeAvailable: Bool {
         FileManager.default.fileExists(atPath: ffprobePath)
+    }
+
+    public var commandPreview: String? {
+        guard let job = makeExportJob() else { return nil }
+        return commandBuilder.commandLine(for: job, ffmpegPath: ffmpegPath)
     }
     
     // Core business actions
@@ -131,54 +137,11 @@ public final class AppState: ObservableObject {
             self.errorMessage = "ffmpeg binary not found. Please set correct path in Nastavení."
             return
         }
-        
-        // Define outputs
-        let inputAsset: MediaAsset
-        let secondaryAsset: MediaAsset?
-        let outputExtension: String = exportSettings.outputFormat.rawValue
-        
-        if selectedMode == .export360Video {
-            guard let video = inputVideo else {
-                self.errorMessage = "Není vybráno vstupní video."
-                return
-            }
-            inputAsset = video
-            secondaryAsset = nil
-        } else {
-            guard let video = renderedVideo else {
-                self.errorMessage = "Není vybráno hotové video."
-                return
-            }
-            guard let audio = spatialAudioSource else {
-                self.errorMessage = "Není vybrán zdroj prostorového audia."
-                return
-            }
-            inputAsset = video
-            secondaryAsset = audio
+
+        guard let job = makeExportJob() else {
+            self.errorMessage = selectedMode == .export360Video ? "Není vybráno vstupní video." : "Není vybráno hotové video nebo zdroj prostorového audia."
+            return
         }
-        
-        // Output destination folder logic
-        let targetFolder: URL
-        if let folder = exportSettings.destinationFolder {
-            targetFolder = folder
-        } else {
-            // Default to the folder of the input video
-            targetFolder = inputAsset.url.deletingLastPathComponent()
-        }
-        
-        // Build filename
-        let baseName = inputAsset.url.deletingPathExtension().lastPathComponent
-        let suffix = selectedMode == .export360Video ? "_360_export" : "_spatial"
-        let outputURL = targetFolder.appendingPathComponent("\(baseName)\(suffix).\(outputExtension)")
-        
-        let job = ExportJob(
-            mode: selectedMode,
-            inputVideo: inputAsset,
-            secondarySource: secondaryAsset,
-            settings: exportSettings,
-            attachAudioMode: attachAudioMode,
-            outputURL: outputURL
-        )
         
         self.currentJob = job
         self.validationResult = nil
@@ -206,7 +169,7 @@ public final class AppState: ObservableObject {
                     message: "Kontroluji výstup přes ffprobe..."
                 )
                 
-                let result = try await metadataService.validate(url: outputURL, expectedJob: job, ffprobePath: ffprobePath)
+                let result = try await metadataService.validate(url: job.outputURL, expectedJob: job, ffprobePath: ffprobePath)
                 self.validationResult = result
                 self.lastCompletedJob = job
                 self.showValidationDetails = true
@@ -237,5 +200,34 @@ public final class AppState: ObservableObject {
         self.currentJob = nil
         self.exportProgress = nil
         self.errorMessage = "Export byl stornován uživatelem."
+    }
+
+    private func makeExportJob() -> ExportJob? {
+        let inputAsset: MediaAsset
+        let secondaryAsset: MediaAsset?
+
+        if selectedMode == .export360Video {
+            guard let video = inputVideo else { return nil }
+            inputAsset = video
+            secondaryAsset = nil
+        } else {
+            guard let video = renderedVideo, let audio = spatialAudioSource else { return nil }
+            inputAsset = video
+            secondaryAsset = audio
+        }
+
+        let targetFolder = exportSettings.destinationFolder ?? inputAsset.url.deletingLastPathComponent()
+        let baseName = inputAsset.url.deletingPathExtension().lastPathComponent
+        let suffix = selectedMode == .export360Video ? "_360_export" : "_spatial"
+        let outputURL = targetFolder.appendingPathComponent("\(baseName)\(suffix).\(exportSettings.outputFormat.rawValue)")
+
+        return ExportJob(
+            mode: selectedMode,
+            inputVideo: inputAsset,
+            secondarySource: secondaryAsset,
+            settings: exportSettings,
+            attachAudioMode: attachAudioMode,
+            outputURL: outputURL
+        )
     }
 }

@@ -144,6 +144,8 @@ struct AttachSpatialAudioView: View {
                         .cornerRadius(10)
                     }
                 }
+
+                CommandPreviewView()
             }
             
             Spacer()

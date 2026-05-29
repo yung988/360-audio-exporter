@@ -13,6 +13,11 @@ let package = Package(
         .executableTarget(
             name: "360AudioExporter",
             path: "Sources/360AudioExporter"
+        ),
+        .testTarget(
+            name: "360AudioExporterTests",
+            dependencies: ["360AudioExporter"],
+            path: "Tests/360AudioExporterTests"
         )
     ]
 )

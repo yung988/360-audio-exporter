@@ -29,6 +29,7 @@ struct Export360View: View {
             // Export Configuration Grid
             if appState.inputVideo != nil {
                 ExportSettingsView()
+                CommandPreviewView()
             } else {
                 Spacer()
                     .frame(height: 120)
