@@ -1,0 +1,16 @@
+.DS_Store
+.build/
+.swiftpm/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+
+# Local release artifacts
+*.app/
+*.dmg
+AppIcon.iconset/
+dmg_temp/
+
+# Local config
+*.xcuserstate
+*.swp
