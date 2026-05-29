@@ -286,53 +286,53 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Supported Cameras & Production Pipelines</h2>
-                <p class="section-subtitle">Different 360° cameras capture spatial audio in diverse configurations. Learn how Orbit 360 integrates into your existing stitching and editing pipelines.</p>
+                <p class="section-subtitle">Orbit 360 works with raw media formats and outputs from various 360° camera systems (GoPro, Insta360, Ricoh Theta, KanDao) and external field recorders.</p>
             </div>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
-                <!-- GoPro MAX -->
-                <div class="feature-card">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--secondary); margin-bottom: 0.5rem; font-weight: 600;">GoPro MAX</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Extract Raw 360 Audio</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">GoPro Player often grays out "360 Audio" exports or flattens streams to stereo. Work around this by dropping your raw <code>.360</code> camera file straight into Orbit 360 to copy its original 4-channel or 6-channel audio track directly into your edited ProRes master.</p>
+                <!-- General Requirement -->
+                <div class="feature-card" style="background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3);">
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a78bfa; margin-bottom: 0.5rem; font-weight: 600;">Audio Format Requirements</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Single Multi-Channel Stream</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Orbit 360 expects spatial audio to be stored as a <strong>single audio stream</strong> containing 4 or more channels. If your camera or external microphone records audio as multiple separate mono tracks (e.g. 4 separate tracks), they must be merged/muxed into a single quad track first.</p>
                 </div>
-                
-                <!-- Insta360 -->
-                <div class="feature-card">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 0.5rem; font-weight: 600;">Insta360 Series</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Stitch & Restore Workflow</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">For the X3, X4, ONE X2, or RS 1-Inch, stitch footage in Insta360 Studio. If editing or color grading in DaVinci Resolve or Premiere Pro strips the Ambisonic metadata, export your graded video as a high-quality stereo file, then merge it with the Studio-exported audio using Orbit 360.</p>
+
+                <!-- Channel Mapping -->
+                <div class="feature-card" style="background: rgba(236, 72, 153, 0.1); border-color: rgba(236, 72, 153, 0.3);">
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #f472b6; margin-bottom: 0.5rem; font-weight: 600;">Spatial Orientation</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">AmbiX (ACN/SN3D) Mapping</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">For spatial panning to rotate correctly with the viewer's head movements in VR, audio channels must follow the <strong>AmbiX layout</strong> (Channel 1: W, Channel 2: Y, Channel 3: Z, Channel 4: X). Convert alternative formats (like FuMa or A-format) before importing.</p>
                 </div>
-                
-                <!-- Ricoh Theta -->
+
+                <!-- Camera Pipeline -->
                 <div class="feature-card">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">Ricoh Theta V & Z1</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Native 4-Mic Mapping</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">The Theta series records immersive 4-channel spatial sound fields directly. Orbit 360 automatically recognizes these tracks as likely spatial/ambisonic (4-channel array) and makes it simple to copy or map them back to your finished edit.</p>
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">Stitching & Editing</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Camera Muxing & NLEs</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">Process stitching (GoPro Player, Insta360 Studio) first. Since NLEs like Premiere Pro or DaVinci Resolve strip spatial metadata on export, use Orbit 360 as the final step to merge your high-quality video edit with the camera's original audio.</p>
                 </div>
 
                 <!-- External Recorders -->
                 <div class="feature-card">
-                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a5b4fc; margin-bottom: 0.5rem; font-weight: 600;">External Audio</div>
-                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Dedicated Spatial Recorders</h3>
-                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">For high-end productions, syncing external spatial mics (like the <strong>Zoom H3-VR</strong>) is standard. Drop your finished graded video and your external 4-channel spatial WAV/AAC file, and Orbit 360 will mux them and inject the necessary VR layout metadata.</p>
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #a5b4fc; margin-bottom: 0.5rem; font-weight: 600;">Professional Gear</div>
+                    <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">Dedicated Spatial Mics</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">For high-end setups (using Ricoh Theta Z1 built-in mics or external recorders like the <strong>Zoom H3-VR</strong>), Orbit 360 easily maps 4-channel spatial sound fields directly into your final render and injects required playback tags.</p>
                 </div>
             </div>
 
             <!-- The Editing Problem Info -->
             <div class="glass" style="border-radius: 20px; padding: 3rem; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center;">
                 <div>
-                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-family: var(--font-heading);">Why do I need a Spatial Audio Restorer?</h3>
-                    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">When editing or grading 360° videos in programs like Premiere Pro or DaVinci Resolve, the spatial audio track is frequently compressed down to stereo, or the specific VR metadata tags (which tell platforms like YouTube or Quest to treat it as spatial) are stripped out during export.</p>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Orbit 360 solves this in two steps: export your high-resolution graded master (even in stereo format), select your original camera source file or WAV, and run Orbit 360. It will copy the video 1:1 (completing in seconds without loss of quality) and merge the raw, multi-channel spatial audio directly, injecting proper Ambisonics layout metadata tags.</p>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; font-family: var(--font-heading);">How Orbit 360 Handles Audio Streams</h3>
+                    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">When editing or grading 360° videos in post-production software, spatial audio configurations are easily flattened. Orbit 360 handles spatial audio by letting you select the finished video and a secondary source that has the spatial track.</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Our utility uses <code>ffprobe</code> to analyze audio configurations, finding the stream with 4 or more channels. It copy-pastes the video track 1:1 to preserve original 8K or 4K encoding, merges the selected multi-channel spatial audio stream, and injects spatial 3D metadata so VR platforms play the audio correctly.</p>
                 </div>
                 <div style="background: rgba(10, 8, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem;">
-                    <h4 style="font-family: var(--font-heading); color: var(--text-highlight); font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="help-circle" style="color: var(--secondary);"></i> What needs to be done?</h4>
+                    <h4 style="font-family: var(--font-heading); color: var(--text-highlight); font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="help-circle" style="color: var(--secondary);"></i> Audio checklist for Orbit 360:</h4>
                     <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem; color: var(--text-muted);">
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Extract raw WAV/AAC from .360 files if GoPro Player exports only stereo.</li>
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Set NLE sequence track to Adaptive (4-channels) for editing.</li>
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Verify audio channels are mapped as AmbiX (ACN/SN3D).</li>
-                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Use Orbit 360 to inject VR and ambisonic tags to restore spatial playback.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Ensure spatial audio is packaged in a <strong>single multi-channel track</strong>.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Mux separate mono tracks into a single 4-channel file first if necessary.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Arrange channels using the <strong>AmbiX (ACN/SN3D)</strong> mapping standard.</li>
+                        <li style="display: flex; gap: 0.5rem;"><i data-lucide="check" style="color: var(--primary); width: 16px; flex-shrink: 0;"></i> Let Orbit 360 restore this multi-channel layout and write proper metadata.</li>
                     </ul>
                 </div>
             </div>
