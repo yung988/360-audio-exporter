@@ -16,7 +16,7 @@ public struct TimecodeParser {
     }
 
     public static func formatDuration(seconds: Double?) -> String {
-        guard let seconds = seconds else { return "neznámý" }
+        guard let seconds = seconds else { return "unknown" }
         let totalSecs = max(0, Int(round(seconds)))
         let h = totalSecs / 3600
         let m = (totalSecs % 3600) / 60

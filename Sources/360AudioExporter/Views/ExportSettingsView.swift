@@ -5,7 +5,7 @@ struct ExportSettingsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Nastavení exportu")
+            Text("Export settings")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundColor(.white)
@@ -16,7 +16,7 @@ struct ExportSettingsView: View {
                     HStack(spacing: 16) {
                         // Output format
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Výstupní formát")
+                            Text("Output format")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                             
@@ -32,7 +32,7 @@ struct ExportSettingsView: View {
 
                         // Video codec
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Video kodek")
+                            Text("Video codec")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
 
@@ -50,7 +50,7 @@ struct ExportSettingsView: View {
                     HStack(spacing: 16) {
                         // Resolution
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Rozlišení")
+                            Text("Resolution")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
 
@@ -66,7 +66,7 @@ struct ExportSettingsView: View {
                          
                         // Video quality
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Kvalita videa")
+                            Text("Video quality")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                             
@@ -90,7 +90,7 @@ struct ExportSettingsView: View {
                         HStack(spacing: 16) {
                             if appState.exportSettings.resolution == .custom {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Vlastní šířka")
+                                    Text("Custom width")
                                         .font(.caption2)
                                         .foregroundColor(.gray)
 
@@ -99,7 +99,7 @@ struct ExportSettingsView: View {
                                 }
 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Vlastní výška")
+                                    Text("Custom height")
                                         .font(.caption2)
                                         .foregroundColor(.gray)
 
@@ -142,7 +142,7 @@ struct ExportSettingsView: View {
                     HStack(spacing: 16) {
                         // Framerate
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Snímková frekvence")
+                            Text("Frame rate")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                             

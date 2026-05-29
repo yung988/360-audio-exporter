@@ -6,12 +6,12 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
-            Text("Nastavení")
+            Text("Settings")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
             
-            Text("Pro fungování exportů aplikace vyžaduje správně nakonfigurované binární soubory ffmpeg a ffprobe. Aplikace se je pokouší vyhledat v běžných systémových cestách automaticky.")
+            Text("Orbit 360 uses ffmpeg for export and ffprobe for media inspection. The app looks for them automatically, but you can choose custom binary paths here.")
                 .font(.body)
                 .foregroundColor(.gray)
                 .lineSpacing(4)
@@ -21,16 +21,16 @@ struct SettingsView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "terminal.fill")
                             .foregroundColor(.orange)
-                        Text("Chybí ffmpeg / ffprobe")
+                        Text("ffmpeg / ffprobe is missing")
                             .font(.headline)
                             .foregroundColor(.white)
                     }
 
-                    Text("Aplikace umí použít ffmpeg přibalený v appce, nebo binárky vybrané ručně. Homebrew je jen jedna z možností, není povinný.")
+                    Text("You can use bundled binaries or choose local ffmpeg and ffprobe files manually. Homebrew is optional.")
                         .font(.caption)
                         .foregroundColor(.gray)
 
-                    Text("Možnost 1: stáhnout ffmpeg/ffprobe build, rozbalit ho a níže ručně vybrat soubory ffmpeg a ffprobe.\nMožnost 2: pokud používáte Homebrew, spustit: brew install ffmpeg")
+                    Text("Option 1: download an ffmpeg/ffprobe build, unzip it, and choose the binaries below.\nOption 2: if you use Homebrew, run: brew install ffmpeg")
                         .font(.caption2)
                         .foregroundColor(.gray)
                         .lineSpacing(3)
@@ -45,7 +45,7 @@ struct SettingsView: View {
                         .cornerRadius(6)
 
                     HStack {
-                        Button("Otevřít ffmpeg.org") {
+                        Button("Open ffmpeg.org") {
                             if let url = URL(string: "https://ffmpeg.org/download.html") {
                                 NSWorkspace.shared.open(url)
                             }
@@ -53,7 +53,7 @@ struct SettingsView: View {
                         .buttonStyle(.bordered)
                         .controlSize(.small)
 
-                        Text("Po instalaci restartujte aplikaci, nebo nastavte cesty ručně níže.")
+                        Text("After installing, restart the app or set the paths manually below.")
                             .font(.caption2)
                             .foregroundColor(.gray)
                     }
@@ -70,7 +70,7 @@ struct SettingsView: View {
             VStack(spacing: 16) {
                 // ffmpeg path block
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Cesta k ffmpeg")
+                    Text("ffmpeg path")
                         .font(.headline)
                         .foregroundColor(.white)
                     
@@ -79,7 +79,7 @@ struct SettingsView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .frame(maxWidth: .infinity)
                         
-                        Button("Procházet...") {
+                        Button("Browse...") {
                             if let selected = FileAccessService.selectFile(allowedExtensions: []) {
                                 appState.ffmpegPath = selected.path
                                 appState.saveBinaryPaths()
@@ -91,13 +91,13 @@ struct SettingsView: View {
                         if appState.isFfmpegAvailable {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
-                            Text("ffmpeg je dostupný")
+                            Text("ffmpeg is available")
                                 .font(.caption)
                                 .foregroundColor(.green)
                         } else {
                             Image(systemName: "exclamationmark.triangle.fill")
                                 .foregroundColor(.red)
-                            Text("Binárka na této cestě neexistuje")
+                            Text("No binary exists at this path")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
@@ -109,7 +109,7 @@ struct SettingsView: View {
                 
                 // ffprobe path block
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Cesta k ffprobe")
+                    Text("ffprobe path")
                         .font(.headline)
                         .foregroundColor(.white)
                     
@@ -118,7 +118,7 @@ struct SettingsView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .frame(maxWidth: .infinity)
                         
-                        Button("Procházet...") {
+                        Button("Browse...") {
                             if let selected = FileAccessService.selectFile(allowedExtensions: []) {
                                 appState.ffprobePath = selected.path
                                 appState.saveBinaryPaths()
@@ -130,13 +130,13 @@ struct SettingsView: View {
                         if appState.isFfprobeAvailable {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
-                            Text("ffprobe je dostupný")
+                            Text("ffprobe is available")
                                 .font(.caption)
                                 .foregroundColor(.green)
                         } else {
                             Image(systemName: "exclamationmark.triangle.fill")
                                 .foregroundColor(.red)
-                            Text("Binárka na této cestě neexistuje")
+                            Text("No binary exists at this path")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
@@ -147,7 +147,7 @@ struct SettingsView: View {
                 .cornerRadius(8)
             }
             
-            Button("Uložit nastavení") {
+            Button("Save Settings") {
                 appState.saveBinaryPaths()
             }
             .buttonStyle(.borderedProminent)

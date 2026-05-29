@@ -1,22 +1,33 @@
-# 360 Audio Exporter
+# Orbit 360
 
-Native macOS SwiftUI utility for exporting 360 video and attaching 4-channel spatial/ambisonic audio to finished videos.
+A simple 360° video transcoder for VR-ready exports.
 
-The app keeps the UI native and delegates heavy media work to `ffmpeg` and `ffprobe` through `Process`.
+Convert 360° video from camera files or equirectangular exports into modern formats, with stereo, original, or spatial audio intact.
+
+Orbit 360 is a native macOS tool for converting 360° video into clean, VR-ready exports. Drop in a 360° camera file or an equirectangular video, choose your output format, resolution, codec, frame rate, and audio mode, then export a file ready for playback, editing, sharing, or VR viewing.
+
+Orbit 360 can preserve original audio, export stereo audio, keep 4-channel spatial/ambisonic audio intact, or restore spatial audio by copying it from the original camera file into an already exported video.
 
 This project is open source and currently in early MVP/alpha stage.
 
-## Features
+## Reasons You'll Love Orbit 360
 
-- Export 360 videos to MP4, M4V, MOV, MKV, or WebM.
-- Choose H.264, HEVC, ProRes, VP9, or stream copy where compatible.
-- Pick common 2:1 360 resolutions from 2K to 8K, or enter a custom resolution.
-- Use bitrate presets or a custom video bitrate.
-- Keep original audio, export stereo AAC, export 4-channel spatial audio, or remove audio.
-- Attach spatial audio from a 360 source, MP4/MOV, WAV, M4A, or AAC file without re-encoding the video.
-- Show source file metadata, streams, channels, codec, duration, size, and likely 360/spatial status.
-- Show export stage, percentage, current media timestamp, speed, and ETA.
-- Validate output with `ffprobe` after export.
+- Convert 360° video into modern formats.
+- Preserve stereo, original, or spatial audio.
+- Restore spatial audio from source footage into finished stereo exports.
+- Queue up to 20 videos and export them as a sequential batch.
+- Create VR-ready equirectangular video files.
+- Verify resolution, frame rate, codecs, audio channels, and metadata before export.
+- Use a native macOS interface.
+- Keep the workflow simple with no timeline and no editing clutter.
+
+## Typical Workflow
+
+1. Drop in a 360° camera file or equirectangular export.
+2. Choose output format, resolution, codec, frame rate, and audio mode.
+3. Queue up to 20 videos when you need a batch export.
+4. Export clean VR-ready files.
+5. Check validation before playback, editing, sharing, or VR viewing.
 
 ## Requirements
 
@@ -32,16 +43,6 @@ brew install ffmpeg
 ```
 
 The app looks for binaries in `/opt/homebrew/bin`, `/usr/local/bin`, and `/usr/bin`. You can override paths in Settings.
-
-If exports are disabled or the app shows missing binaries, install or download ffmpeg and restart the app.
-
-For Homebrew users:
-
-```bash
-brew install ffmpeg
-```
-
-The Homebrew package includes both `ffmpeg` and `ffprobe`.
 
 Without Homebrew, download an ffmpeg build from https://ffmpeg.org/download.html, then select the `ffmpeg` and `ffprobe` binaries in Settings.
 
@@ -67,7 +68,7 @@ swift build
 Run from Swift Package Manager:
 
 ```bash
-swift run 360AudioExporter
+swift run Orbit360
 ```
 
 Create a local `.app` bundle and `.dmg`:
@@ -80,9 +81,9 @@ swift build -c release --arch x86_64
 
 ## Notes
 
-- The app does not implement camera stitching or a custom video decoder.
+- Orbit 360 does not implement camera stitching or a custom video decoder.
 - GoPro `.360` and Insta360 `.insv` support depends on what the installed ffmpeg build can read.
-- Four audio channels are treated as likely spatial/ambisonic audio, but some VR platforms may also require platform-specific metadata.
+- Four audio channels are treated as likely ambisonic / spatial audio, but some VR platforms may also require platform-specific metadata.
 
 ## License
 

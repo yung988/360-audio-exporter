@@ -4,11 +4,12 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE="$SCRIPT_DIR"
 BUILD_DIR="$WORKSPACE/.build/release"
-APP_NAME="360AudioExporter"
-EXECUTABLE_NAME="AudioExporter360"
+APP_NAME="Orbit360"
+APP_BUNDLE_NAME="Orbit 360"
+EXECUTABLE_NAME="Orbit360"
 ARM64_BINARY="$WORKSPACE/.build/arm64-apple-macosx/release/$APP_NAME"
 X86_64_BINARY="$WORKSPACE/.build/x86_64-apple-macosx/release/$APP_NAME"
-APP_BUNDLE="$WORKSPACE/$APP_NAME.app"
+APP_BUNDLE="$WORKSPACE/$APP_BUNDLE_NAME.app"
 ICON_SOURCE="${ICON_SOURCE:-$WORKSPACE/Resources/AppIcon.png}"
 ICON_ICNS="${ICON_ICNS:-$WORKSPACE/Resources/AppIcon.icns}"
 
@@ -91,11 +92,11 @@ cat <<EOF > "$APP_BUNDLE/Contents/Info.plist"
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
-    <string>com.jangajdos.audioexporter360</string>
+    <string>com.jangajdos.orbit360</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>360 Audio Exporter</string>
+    <string>Orbit 360</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -121,8 +122,8 @@ mkdir -p "$DMG_TEMP_DIR"
 cp -R "$APP_BUNDLE" "$DMG_TEMP_DIR/"
 ln -s /Applications "$DMG_TEMP_DIR/Applications"
 
-rm -f "$WORKSPACE/360AudioExporter.dmg"
-hdiutil create -volname "360 Audio Exporter" -srcfolder "$DMG_TEMP_DIR" -ov -format UDZO "$WORKSPACE/360AudioExporter.dmg"
+rm -f "$WORKSPACE/Orbit360.dmg"
+hdiutil create -volname "Orbit 360" -srcfolder "$DMG_TEMP_DIR" -ov -format UDZO "$WORKSPACE/Orbit360.dmg"
 rm -rf "$DMG_TEMP_DIR"
 
-echo "DMG created successfully at $WORKSPACE/360AudioExporter.dmg"
+echo "DMG created successfully at $WORKSPACE/Orbit360.dmg"

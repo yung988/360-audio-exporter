@@ -1,12 +1,29 @@
 import Foundation
 import Combine
 
+public struct CompletedExportResult: Identifiable, Hashable {
+    public let id: UUID
+    public let sourceFileName: String
+    public let outputURL: URL
+    public let validationResult: ValidationResult
+
+    public init(id: UUID = UUID(), sourceFileName: String, outputURL: URL, validationResult: ValidationResult) {
+        self.id = id
+        self.sourceFileName = sourceFileName
+        self.outputURL = outputURL
+        self.validationResult = validationResult
+    }
+}
+
 @MainActor
 public final class AppState: ObservableObject {
+    public static let maxBatchSize = 20
+
     @Published var selectedMode: ExportMode = .export360Video
     
     // Mode 1 assets
-    @Published var inputVideo: MediaAsset?
+    @Published var inputVideos: [MediaAsset] = []
+    public var inputVideo: MediaAsset? { inputVideos.first }
     
     // Mode 2 assets
     @Published var renderedVideo: MediaAsset?
@@ -22,8 +39,11 @@ public final class AppState: ObservableObject {
     @Published var exportProgress: ExportProgress?
     @Published var isExporting: Bool = false
     @Published var validationResult: ValidationResult?
+    @Published var completedExportResults: [CompletedExportResult] = []
     @Published var showValidationDetails: Bool = false
     @Published var errorMessage: String?
+    @Published var currentBatchIndex: Int = 0
+    @Published var batchTotal: Int = 0
     
     // Executable settings paths
     @Published var ffmpegPath: String
@@ -89,9 +109,9 @@ public final class AppState: ObservableObject {
     }
 
     // Core business actions
-    public func probeAsset(url: URL, mode: ExportMode, isSecondary: Bool = false) async {
+    public func probeAsset(url: URL, mode: ExportMode, isSecondary: Bool = false, appendToBatch: Bool = false) async {
         guard isFfprobeAvailable else {
-            self.errorMessage = "ffprobe binary not found. Please set correct path in Nastavení."
+            self.errorMessage = "ffprobe was not found. Open Settings and choose the correct binary."
             return
         }
         
@@ -110,7 +130,11 @@ public final class AppState: ObservableObject {
             let asset = MediaAsset(url: url, fileName: fileName, fileType: type, probe: probe)
             
             if mode == .export360Video {
-                self.inputVideo = asset
+                if appendToBatch {
+                    appendInputVideo(asset)
+                } else {
+                    self.inputVideos = [asset]
+                }
             } else {
                 if isSecondary {
                     self.spatialAudioSource = asset
@@ -119,13 +143,44 @@ public final class AppState: ObservableObject {
                 }
             }
         } catch {
-            self.errorMessage = "Chyba načítání metadat: \(error.localizedDescription)"
+            self.errorMessage = "Could not read media metadata: \(error.localizedDescription)"
         }
+    }
+
+    public func probeAssets(urls: [URL], mode: ExportMode, appendToBatch: Bool = false) async {
+        guard mode == .export360Video else {
+            if let url = urls.first {
+                await probeAsset(url: url, mode: mode)
+            }
+            return
+        }
+
+        if !appendToBatch {
+            inputVideos = []
+        }
+
+        let remainingSlots = max(0, Self.maxBatchSize - inputVideos.count)
+        let allowedURLs = Array(urls.prefix(remainingSlots))
+        if urls.count > allowedURLs.count {
+            errorMessage = "Only \(Self.maxBatchSize) videos can be queued at once. Extra files were ignored."
+        }
+
+        for url in allowedURLs {
+            await probeAsset(url: url, mode: mode, appendToBatch: true)
+        }
+    }
+
+    public func removeInputVideo(id: UUID) {
+        inputVideos.removeAll { $0.id == id }
+    }
+
+    public func clearInputVideos() {
+        inputVideos = []
     }
     
     public func clearAsset(mode: ExportMode, isSecondary: Bool = false) {
         if mode == .export360Video {
-            self.inputVideo = nil
+            self.inputVideos = []
         } else {
             if isSecondary {
                 self.spatialAudioSource = nil
@@ -137,60 +192,80 @@ public final class AppState: ObservableObject {
     
     public func startExport() {
         guard isFfmpegAvailable else {
-            self.errorMessage = "ffmpeg binary not found. Please set correct path in Nastavení."
+            self.errorMessage = "ffmpeg was not found. Open Settings and choose the correct binary."
             return
         }
 
-        guard let job = makeExportJob() else {
-            self.errorMessage = selectedMode == .export360Video ? "Není vybráno vstupní video." : "Není vybráno hotové video nebo zdroj prostorového audia."
+        guard let jobs = makeExportJobs(), !jobs.isEmpty else {
+            self.errorMessage = selectedMode == .export360Video ? "Choose a 360° input video first." : "Choose both a finished video and an original ambisonic audio source."
             return
         }
         
-        self.currentJob = job
         self.validationResult = nil
+        self.completedExportResults = []
         self.showValidationDetails = false
         self.isExporting = true
         self.errorMessage = nil
+        self.currentBatchIndex = 0
+        self.batchTotal = jobs.count
         
         exportTask = Task {
             do {
-                let progressStream = exportEngine.start(job: job, ffmpegPath: ffmpegPath)
-                for try await progress in progressStream {
+                for (index, job) in jobs.enumerated() {
                     try Task.checkCancellation()
-                    self.exportProgress = progress
+                    self.currentBatchIndex = index + 1
+                    self.currentJob = job
+
+                    let progressStream = exportEngine.start(job: job, ffmpegPath: ffmpegPath)
+                    for try await progress in progressStream {
+                        try Task.checkCancellation()
+                        self.exportProgress = progress
+                    }
+                    try Task.checkCancellation()
+
+                    self.exportProgress = ExportProgress(
+                        percentage: 1.0,
+                        currentTime: nil,
+                        totalDuration: nil,
+                        estimatedRemainingSeconds: 0,
+                        speed: nil,
+                        stage: "Validating",
+                        message: "Checking the exported file with ffprobe..."
+                    )
+
+                    let result = try await metadataService.validate(url: job.outputURL, expectedJob: job, ffprobePath: ffprobePath)
+                    self.validationResult = result
+                    self.lastCompletedJob = job
+                    self.completedExportResults.append(CompletedExportResult(
+                        sourceFileName: job.inputVideo.fileName,
+                        outputURL: job.outputURL,
+                        validationResult: result
+                    ))
                 }
-                try Task.checkCancellation()
-                
-                // Success - run validation
-                self.exportProgress = ExportProgress(
-                    percentage: 1.0,
-                    currentTime: nil,
-                    totalDuration: nil,
-                    estimatedRemainingSeconds: 0,
-                    speed: nil,
-                    stage: "Validace",
-                    message: "Kontroluji výstup přes ffprobe..."
-                )
-                
-                let result = try await metadataService.validate(url: job.outputURL, expectedJob: job, ffprobePath: ffprobePath)
-                self.validationResult = result
-                self.lastCompletedJob = job
+
                 self.showValidationDetails = true
                 self.isExporting = false
                 self.currentJob = nil
                 self.exportProgress = nil
                 self.exportTask = nil
+                self.currentBatchIndex = 0
+                self.batchTotal = 0
             } catch is CancellationError {
                 self.isExporting = false
                 self.currentJob = nil
                 self.exportProgress = nil
                 self.exportTask = nil
+                self.currentBatchIndex = 0
+                self.batchTotal = 0
             } catch {
+                let fileName = self.currentJob?.inputVideo.fileName
                 self.isExporting = false
                 self.currentJob = nil
                 self.exportProgress = nil
                 self.exportTask = nil
-                self.errorMessage = "Export selhal: \(error.localizedDescription)"
+                self.currentBatchIndex = 0
+                self.batchTotal = 0
+                self.errorMessage = fileName.map { "Export failed for \($0): \(error.localizedDescription)" } ?? "Export failed: \(error.localizedDescription)"
             }
         }
     }
@@ -202,23 +277,22 @@ public final class AppState: ObservableObject {
         self.isExporting = false
         self.currentJob = nil
         self.exportProgress = nil
-        self.errorMessage = "Export byl stornován uživatelem."
+        self.currentBatchIndex = 0
+        self.batchTotal = 0
+        self.errorMessage = "Export was canceled."
     }
 
-    private func makeExportJob() -> ExportJob? {
-        let inputAsset: MediaAsset
-        let secondaryAsset: MediaAsset?
-
+    private func makeExportJobs() -> [ExportJob]? {
         if selectedMode == .export360Video {
-            guard let video = inputVideo else { return nil }
-            inputAsset = video
-            secondaryAsset = nil
-        } else {
-            guard let video = renderedVideo, let audio = spatialAudioSource else { return nil }
-            inputAsset = video
-            secondaryAsset = audio
+            guard !inputVideos.isEmpty else { return nil }
+            return inputVideos.map { makeExportJob(inputAsset: $0, secondaryAsset: nil) }
         }
 
+        guard let video = renderedVideo, let audio = spatialAudioSource else { return nil }
+        return [makeExportJob(inputAsset: video, secondaryAsset: audio)]
+    }
+
+    private func makeExportJob(inputAsset: MediaAsset, secondaryAsset: MediaAsset?) -> ExportJob {
         let targetFolder = exportSettings.destinationFolder ?? inputAsset.url.deletingLastPathComponent()
         let baseName = inputAsset.url.deletingPathExtension().lastPathComponent
         let suffix = selectedMode == .export360Video ? "_360_export" : "_spatial"
@@ -232,5 +306,14 @@ public final class AppState: ObservableObject {
             attachAudioMode: attachAudioMode,
             outputURL: outputURL
         )
+    }
+
+    private func appendInputVideo(_ asset: MediaAsset) {
+        guard !inputVideos.contains(where: { $0.url == asset.url }) else { return }
+        guard inputVideos.count < Self.maxBatchSize else {
+            errorMessage = "Only \(Self.maxBatchSize) videos can be queued at once. Remove a file before adding another."
+            return
+        }
+        inputVideos.append(asset)
     }
 }

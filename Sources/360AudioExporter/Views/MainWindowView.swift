@@ -19,11 +19,11 @@ struct MainWindowView: View {
                     HStack {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundColor(.amberColor)
-                        Text("Varování: chybí ffmpeg nebo ffprobe. Jděte do Nastavení a zkontrolujte cesty k binárkám.")
+                        Text("ffmpeg or ffprobe is missing. Open Settings and check the binary paths.")
                             .font(.subheadline)
                             .foregroundColor(.white)
                         Spacer()
-                        Button("Přejít do nastavení") {
+                        Button("Open Settings") {
                             showSettings = true
                         }
                         .buttonStyle(.bordered)
@@ -80,7 +80,9 @@ struct MainWindowView: View {
             }
         )
         .sheet(isPresented: $appState.showValidationDetails) {
-            if let result = appState.validationResult {
+            if appState.completedExportResults.count > 1 {
+                BatchValidationSummaryView(results: appState.completedExportResults)
+            } else if let result = appState.validationResult {
                 ValidationResultView(result: result)
             }
         }

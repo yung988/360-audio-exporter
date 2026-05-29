@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import _60AudioExporter
+@testable import Orbit360
 
 struct FFmpegCommandBuilderTests {
     @Test func export360UsesCustomResolutionAndBitrate() {

@@ -8,9 +8,14 @@ struct AttachSpatialAudioView: View {
             
             // 1. Rendered Video Selector
             VStack(alignment: .leading, spacing: 6) {
-                Text("Hotové video (MP4 / MOV bez spatial audia)")
+                Text("Finished 360° export")
                     .font(.headline)
                     .foregroundColor(.white)
+
+                Text("Choose the finished video you want to keep, for example an 8K export that only has stereo audio. Orbit 360 copies the video stream unchanged and only changes the audio.")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 if let asset = appState.renderedVideo {
                     MediaInfoCardView(
@@ -21,7 +26,7 @@ struct AttachSpatialAudioView: View {
                     )
                 } else {
                     MediaDropZoneView(
-                        title: "Přetáhněte hotový video soubor sem",
+                        title: "Drop the finished 360° export you want to keep",
                         allowedExtensions: ["mp4", "mov"],
                         mode: .attachSpatialAudio,
                         isSecondary: false
@@ -31,9 +36,14 @@ struct AttachSpatialAudioView: View {
             
             // 2. Spatial Audio Source Selector
             VStack(alignment: .leading, spacing: 6) {
-                Text("Zdroj prostorového audia (360 kamera, wav apod.)")
+                Text("Original camera audio source")
                     .font(.headline)
                     .foregroundColor(.white)
+
+                Text("Choose the original camera file, WAV, or AAC source that still contains the 4-channel spatial/ambisonic audio track.")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 if let asset = appState.spatialAudioSource {
                     MediaInfoCardView(
@@ -44,7 +54,7 @@ struct AttachSpatialAudioView: View {
                     )
                 } else {
                     MediaDropZoneView(
-                        title: "Přetáhněte zdroj s prostorovým audiem sem",
+                        title: "Drop the source file that still has spatial audio",
                         allowedExtensions: ["wav", "mp4", "mov", "360", "insv", "m4a", "aac"],
                         mode: .attachSpatialAudio,
                         isSecondary: true
@@ -55,7 +65,7 @@ struct AttachSpatialAudioView: View {
             // 3. Audio mapping and copy options
             if appState.renderedVideo != nil && appState.spatialAudioSource != nil {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Nastavení sloučení")
+                    Text("Audio replacement settings")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
@@ -63,7 +73,7 @@ struct AttachSpatialAudioView: View {
                     HStack(alignment: .top, spacing: 20) {
                         VStack(alignment: .leading, spacing: 10) {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Výstupní formát")
+                                Text("Output format")
                                     .font(.caption2)
                                     .foregroundColor(.gray)
 
@@ -76,9 +86,9 @@ struct AttachSpatialAudioView: View {
                                 .labelsHidden()
                             }
 
-                            // Režim sloučení picker
+                            // Audio merge mode picker
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("Režim audio stop")
+                                Text("Audio track mode")
                                     .font(.caption2)
                                     .foregroundColor(.gray)
                                 
@@ -117,23 +127,23 @@ struct AttachSpatialAudioView: View {
                             HStack {
                                 Image(systemName: "info.circle.fill")
                                     .foregroundColor(.blue)
-                                Text("Informace o převodu")
+                                Text("What this mode does")
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                             }
                             
-                            Text("• Video se nebude překódovávat (kopíruje se 1:1 bez ztráty kvality).\n• Prostorové audio se zkopíruje přímo, nebo se překóduje na 4kanálové AAC (podle zdroje).\n• Původní metadata o 360° projekci videa budou zachována.")
+                            Text("• Your finished video is copied 1:1, so an 8K export is not re-encoded.\n• Existing stereo can be replaced, kept, or paired with the original ambisonic track.\n• Existing 360° projection metadata is preserved.")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                                 .lineSpacing(3)
 
                             if let audio = appState.spatialAudioSource?.probe?.audioStreams.first(where: { $0.isLikelySpatial }) {
-                                Text("Vybraná spatial stopa: #\(audio.index), \(audio.channels)ch, \(audio.codec)")
+                                Text("Selected ambisonic track: #\(audio.index), \(audio.channels)ch, \(audio.codec)")
                                     .font(.caption2)
                                     .foregroundColor(.green)
                             } else {
-                                Text("Ve zdroji zatím nevidím jasnou 4kanálovou stopu. Aplikace použije první audio stopu a validace výsledek zkontroluje.")
+                                Text("No clear 4-channel ambisonic track was found. The first audio track will be used and validation will check the result.")
                                     .font(.caption2)
                                     .foregroundColor(.orange)
                             }
@@ -154,13 +164,13 @@ struct AttachSpatialAudioView: View {
                     .background(Color.white.opacity(0.1))
                 
                 HStack {
-                    // Destination Path Selector
+                    // Destination path selector
                     HStack(spacing: 8) {
-                        Text("Cíl exportu")
+                        Text("Export destination")
                             .font(.body)
                             .foregroundColor(.gray)
                         
-                        Text(appState.exportSettings.destinationFolder?.path ?? (appState.renderedVideo != nil ? "Stejná složka jako video" : "Vyberte složku..."))
+                        Text(appState.exportSettings.destinationFolder?.path ?? (appState.renderedVideo != nil ? "Same folder as video" : "Choose a folder..."))
                             .font(.caption)
                             .foregroundColor(.white)
                             .padding(.horizontal, 10)
@@ -169,7 +179,7 @@ struct AttachSpatialAudioView: View {
                             .cornerRadius(6)
                             .help(appState.exportSettings.destinationFolder?.path ?? "")
                         
-                        Button("Vybrat...") {
+                        Button("Choose...") {
                             if let folder = FileAccessService.selectDirectory() {
                                 appState.exportSettings.destinationFolder = folder
                             }
@@ -183,7 +193,7 @@ struct AttachSpatialAudioView: View {
                     Button(action: {
                         appState.startExport()
                     }) {
-                        Text("Spustit sloučení")
+                        Text("Restore Spatial Audio")
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.horizontal, 24)

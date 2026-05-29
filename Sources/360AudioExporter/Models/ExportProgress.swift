@@ -16,7 +16,7 @@ public struct ExportProgress: Codable, Hashable {
         totalDuration: Double? = nil,
         estimatedRemainingSeconds: Double? = nil,
         speed: String? = nil,
-        stage: String = "Příprava",
+        stage: String = "Preparing",
         message: String = "",
         detail: String? = nil
     ) {

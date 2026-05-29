@@ -16,9 +16,15 @@ struct ExportProgressView: View {
                         .foregroundColor(.blue)
                         .textCase(.uppercase)
 
-                    Text(appState.exportProgress?.message ?? "Exportuji...")
+                    Text(appState.exportProgress?.message ?? "Exporting...")
                         .font(.headline)
                         .foregroundColor(.white)
+
+                    if appState.batchTotal > 1 {
+                        Text("Video \(appState.currentBatchIndex) of \(appState.batchTotal)")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
                 }
                 
                 // Progress indicator
@@ -36,7 +42,7 @@ struct ExportProgressView: View {
                             Spacer()
                             
                             if let speed = appState.exportProgress?.speed {
-                                Text("Rychlost: \(speed)")
+                                Text("Speed: \(speed)")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
@@ -50,12 +56,12 @@ struct ExportProgressView: View {
                 // Time tracker details
                 if let current = appState.exportProgress?.currentTime, let total = appState.exportProgress?.totalDuration {
                     VStack(spacing: 4) {
-                        Text("Zpracováno: \(TimecodeParser.format(seconds: current)) / \(TimecodeParser.format(seconds: total))")
+                        Text("Processed: \(TimecodeParser.format(seconds: current)) / \(TimecodeParser.format(seconds: total))")
                             .font(.system(.caption, design: .monospaced))
                             .foregroundColor(.gray)
 
                         if let remaining = appState.exportProgress?.estimatedRemainingSeconds {
-                            Text("Odhad do konce: \(TimecodeParser.formatDuration(seconds: remaining))")
+                            Text("Estimated remaining: \(TimecodeParser.formatDuration(seconds: remaining))")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
@@ -70,7 +76,7 @@ struct ExportProgressView: View {
                         .lineLimit(3)
                 }
                 
-                Button("Zrušit export") {
+                Button("Cancel Export") {
                     appState.cancelExport()
                 }
                 .buttonStyle(.borderedProminent)

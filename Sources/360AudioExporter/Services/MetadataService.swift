@@ -52,21 +52,21 @@ public final class MetadataService {
         // 1. Audio channels warning
         let expectsSpatial = expectedJob.mode == .attachSpatialAudio || expectedJob.settings.audioMode == .spatialFourChannelAAC
         if expectsSpatial && spatialAudio == nil {
-            warnings.append("Pozor: výstupní audio nemá 4 kanály (obsahuje: \(channels)ch). Pravděpodobně došlo k downmixu na stereo.")
+            warnings.append("The exported audio is not 4-channel ambisonic audio. It contains \(channels) channel(s), so it may have been downmixed to stereo.")
         }
         
         // 2. Spherical metadata warning
         let expects360 = expectedJob.mode == .export360Video && expectedJob.inputVideo.fileType == .video360
         if expects360 && !projectionOk {
-            warnings.append("Pozor: video může být 360°, ale soubor nemá spherical metadata. Některé přehrávače ho nemusí otevřít jako VR video.")
+            warnings.append("The video looks like 360° footage, but spherical metadata was not found. Some players may not open it as VR video.")
         }
         
         // 3. Duration mismatch
         if !durationOk && expectedJob.inputVideo.probe?.duration != nil {
-            warnings.append("Pozor: délka výstupního souboru neodpovídá zdroji.")
+            warnings.append("The exported duration does not match the source file.")
         }
         
-        let message = warnings.isEmpty ? "Výstup vytvořen úspěšně a je plně validní." : "Výstup byl vytvořen s varováním."
+        let message = warnings.isEmpty ? "The export is complete and the file passed validation." : "The export is complete, but validation found warnings."
         
         return ValidationResult(
             videoOk: videoOk,

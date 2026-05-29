@@ -77,10 +77,10 @@ public struct FFmpegCommandBuilder {
         switch job.mode {
         case .export360Video:
             let codec = effectiveVideoCodec(for: job.settings)
-            let resolution = job.settings.effectiveResolution.map { "\($0.width) x \($0.height)" } ?? "původní rozlišení"
+            let resolution = job.settings.effectiveResolution.map { "\($0.width) x \($0.height)" } ?? "source resolution"
             return "Video: \(codec.label), \(resolution), \(job.settings.effectiveVideoBitrate). Audio: \(job.settings.audioMode.label)."
         case .attachSpatialAudio:
-            return "Video se kopíruje beze změny. Audio zdroj: \(job.secondarySource?.fileName ?? "neznámý soubor")."
+            return "Video is copied unchanged. Audio source: \(job.secondarySource?.fileName ?? "unknown file")."
         }
     }
 

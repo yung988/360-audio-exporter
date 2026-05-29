@@ -14,16 +14,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 @main
-struct _360AudioExporterApp: App {
+struct Orbit360App: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var appState = AppState()
     
     var body: some Scene {
-        Window("360 Audio Exporter", id: "main") {
+        Window("Orbit 360", id: "main") {
             MainWindowView()
                 .environmentObject(appState)
-                .preferredColorScheme(.dark) // sleek dark mode look as mockups show
+                .preferredColorScheme(.dark)
         }
-        .windowStyle(.hiddenTitleBar) // Custom modern layout styling
+        .windowStyle(.hiddenTitleBar)
     }
 }

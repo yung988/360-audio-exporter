@@ -5,7 +5,7 @@ struct OutputPreviewCardView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Náhled výstupu")
+            Text("Output preview")
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundColor(.white)
@@ -28,6 +28,10 @@ struct OutputPreviewCardView: View {
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white.opacity(0.3), lineWidth: 1))
             }
+            .frame(maxWidth: .infinity)
+            .frame(height: 160)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .clipped()
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(outputSummary)
@@ -35,7 +39,7 @@ struct OutputPreviewCardView: View {
                     .foregroundColor(.gray)
 
                 if appState.exportSettings.outputFormat == .webm && appState.exportSettings.videoCodec != .vp9 && appState.exportSettings.videoCodec != .copy {
-                    Text("WebM automaticky použije VP9 + Opus.")
+                    Text("WebM will automatically use VP9 + Opus.")
                         .font(.caption2)
                         .foregroundColor(.orange)
                 }
@@ -52,7 +56,7 @@ struct OutputPreviewCardView: View {
 
     private var outputSummary: String {
         let settings = appState.exportSettings
-        let resolution = settings.effectiveResolution.map { "\($0.width) x \($0.height)" } ?? "původní rozlišení"
+        let resolution = settings.effectiveResolution.map { "\($0.width) x \($0.height)" } ?? "source resolution"
         return "\(settings.outputFormat.label), \(resolution), \(settings.effectiveVideoBitrate), \(settings.audioMode.label)."
     }
 

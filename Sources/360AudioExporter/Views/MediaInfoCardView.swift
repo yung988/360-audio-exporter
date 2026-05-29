@@ -67,7 +67,7 @@ struct MediaInfoCardView: View {
                     
                     Spacer()
                     
-                    Button("Změnit soubor...") {
+                    Button("Change file...") {
                         if let selectedURL = FileAccessService.selectFile(allowedExtensions: allowedExtensions) {
                             Task {
                                 await appState.probeAsset(url: selectedURL, mode: mode, isSecondary: isSecondary)
@@ -143,10 +143,10 @@ struct MediaInfoCardView: View {
                                 .foregroundColor(.gray)
                             if let audio = probe.audioStreams.first {
                                 let layoutInfo = audio.channelLayout != nil ? " (\(audio.channelLayout!))" : ""
-                                let spatialLabel = audio.isLikelySpatial ? "Spatial (Ambisonics)" : "Stereo"
+                                let spatialLabel = audio.isLikelySpatial ? "Ambisonic / spatial" : "Standard"
                                 Text("Audio: \(audio.channels)ch \(spatialLabel)\(layoutInfo) [\(audio.codec)]")
                             } else {
-                                Text("Audio: Bez zvuku")
+                                Text("Audio: No audio")
                             }
                         }
 
@@ -157,12 +157,12 @@ struct MediaInfoCardView: View {
 
                             VStack(alignment: .leading, spacing: 3) {
                                 ForEach(probe.videoStreams.prefix(2)) { stream in
-                                    Text("Video stopa #\(stream.index): \(stream.codec), \(stream.width) × \(stream.height)\(stream.frameRate.map { String(format: ", %.2f fps", $0) } ?? "")")
+                                    Text("Video track #\(stream.index): \(stream.codec), \(stream.width) × \(stream.height)\(stream.frameRate.map { String(format: ", %.2f fps", $0) } ?? "")")
                                         .lineLimit(1)
                                 }
 
                                 ForEach(probe.audioStreams.prefix(4)) { stream in
-                                    Text("Audio stopa #\(stream.index): \(stream.channels)ch, \(stream.codec)\(stream.isLikelySpatial ? " - pravděpodobně spatial" : "")")
+                                    Text("Audio track #\(stream.index): \(stream.channels)ch, \(stream.codec)\(stream.isLikelySpatial ? " - likely ambisonic" : "")")
                                         .lineLimit(1)
                                 }
                             }
@@ -205,6 +205,6 @@ struct MediaInfoCardView: View {
             }
         } catch {}
 
-        return "neznámá velikost"
+        return "unknown size"
     }
 }

@@ -13,31 +13,34 @@ struct VideoThumbnailView<Placeholder: View>: View {
     @State private var isLoading = false
 
     var body: some View {
-        ZStack {
-            if let image {
-                Image(nsImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: height)
-                    .clipped()
-            } else {
-                placeholder()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: height)
-            }
+        GeometryReader { proxy in
+            ZStack {
+                if let image {
+                    Image(nsImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: proxy.size.width, height: height)
+                        .clipped()
+                } else {
+                    placeholder()
+                        .frame(width: proxy.size.width, height: height)
+                        .clipped()
+                }
 
-            if isLoading {
-                ProgressView()
-                    .controlSize(.small)
-                    .tint(.white)
-                    .padding(8)
-                    .background(Color.black.opacity(0.55))
-                    .clipShape(Circle())
+                if isLoading {
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.white)
+                        .padding(8)
+                        .background(Color.black.opacity(0.55))
+                        .clipShape(Circle())
+                }
             }
+            .frame(width: proxy.size.width, height: height)
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         }
         .frame(height: height)
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+        .clipped()
         .task(id: asset?.url) {
             await loadThumbnail()
         }
@@ -112,7 +115,7 @@ private enum ThumbnailGenerator {
             .map { String(format: "%02x", $0) }
             .joined()
         return FileManager.default.temporaryDirectory
-            .appendingPathComponent("360AudioExporter-thumbnails", isDirectory: true)
+            .appendingPathComponent("Orbit360-thumbnails", isDirectory: true)
             .ensuringDirectoryExists()
             .appendingPathComponent("\(digest).jpg")
     }

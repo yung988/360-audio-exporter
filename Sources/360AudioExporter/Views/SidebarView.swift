@@ -6,11 +6,24 @@ struct SidebarView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("Režim")
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Orbit 360")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+
+                Text("A simple 360° video transcoder for VR-ready exports.")
+                    .font(.caption2)
+                    .foregroundColor(.gray)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.horizontal, 8)
+            .padding(.top, 16)
+
+            Text("Workflow")
                 .font(.headline)
                 .foregroundColor(.gray)
                 .padding(.horizontal, 8)
-                .padding(.top, 16)
             
             // Mode 1 Selection Button
             Button(action: {
@@ -19,8 +32,8 @@ struct SidebarView: View {
             }) {
                 SidebarButtonContent(
                     iconName: "globe",
-                    title: "Export 360° video",
-                    subtitle: "Převeď 360° video do vybraného formátu",
+                    title: "Convert 360° Video",
+                    subtitle: "Create clean VR-ready exports",
                     isSelected: appState.selectedMode == .export360Video && !showSettings
                 )
             }
@@ -33,8 +46,8 @@ struct SidebarView: View {
             }) {
                 SidebarButtonContent(
                     iconName: "waveform.circle",
-                    title: "Přidat prostorové audio",
-                    subtitle: "Přidej prostorové audio z 360 souboru do videa",
+                    title: "Restore Spatial Audio",
+                    subtitle: "Replace stereo with original ambisonic audio",
                     isSelected: appState.selectedMode == .attachSpatialAudio && !showSettings
                 )
             }
@@ -49,7 +62,7 @@ struct SidebarView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "gearshape")
                         .font(.title3)
-                    Text("Nastavení")
+                    Text("Settings")
                         .font(.body)
                 }
                 .foregroundColor(showSettings ? .blue : .gray)

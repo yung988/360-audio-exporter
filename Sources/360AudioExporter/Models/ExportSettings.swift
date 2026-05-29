@@ -47,7 +47,7 @@ public enum VideoCodec: String, CaseIterable, Identifiable, Codable {
         case .hevcVideoToolbox: return "HEVC (VideoToolbox)"
         case .proRes: return "ProRes 422"
         case .vp9: return "VP9 (WebM/MKV)"
-        case .copy: return "Kopírovat (bez rekomprese)"
+        case .copy: return "Copy stream (no re-encode)"
         }
     }
 }
@@ -65,14 +65,14 @@ public enum ExportResolution: String, CaseIterable, Identifiable, Codable {
     public var id: String { self.rawValue }
     public var label: String {
         switch self {
-        case .original: return "Stejné jako zdroj"
+        case .original: return "Same as source"
         case .r8k: return "7680 × 3840 (8K)"
         case .r5k7: return "5760 × 2880 (5.7K)"
         case .r5k2: return "5120 × 2560 (5K)"
         case .r4k: return "3840 × 1920 (4K)"
         case .r3k: return "3072 × 1536 (3K)"
         case .r2k: return "1920 × 960 (2K)"
-        case .custom: return "Vlastní rozlišení"
+        case .custom: return "Custom resolution"
         }
     }
 
@@ -106,7 +106,7 @@ public enum FrameRateMode: String, CaseIterable, Identifiable, Codable {
     public var id: String { self.rawValue }
     public var label: String {
         switch self {
-        case .original: return "Stejné jako zdroj"
+        case .original: return "Same as source"
         case .fps60: return "60 fps"
         case .fps50: return "50 fps"
         case .fps30: return "29.97 fps"
@@ -135,11 +135,11 @@ public enum QualityPreset: String, CaseIterable, Identifiable, Codable {
     public var id: String { self.rawValue }
     public var label: String {
         switch self {
-        case .maximum: return "Maximální"
-        case .high: return "Vysoká"
-        case .medium: return "Střední"
-        case .low: return "Nízká"
-        case .custom: return "Vlastní bitrate"
+        case .maximum: return "Maximum"
+        case .high: return "High"
+        case .medium: return "Medium"
+        case .low: return "Low"
+        case .custom: return "Custom bitrate"
         }
     }
     
@@ -149,7 +149,7 @@ public enum QualityPreset: String, CaseIterable, Identifiable, Codable {
         case .high: return "Bitrate: ~40 Mbps"
         case .medium: return "Bitrate: ~20 Mbps"
         case .low: return "Bitrate: ~10 Mbps"
-        case .custom: return "Bitrate: podle zadání"
+        case .custom: return "Bitrate: custom"
         }
     }
     
@@ -173,10 +173,10 @@ public enum AudioMode: String, CaseIterable, Identifiable, Codable {
     public var id: String { self.rawValue }
     public var label: String {
         switch self {
-        case .keepOriginal: return "Ponechat původní"
+        case .keepOriginal: return "Keep original"
         case .stereoAAC: return "Stereo (AAC)"
-        case .spatialFourChannelAAC: return "Prostorové audio (4 kanály)"
-        case .noAudio: return "Bez zvuku"
+        case .spatialFourChannelAAC: return "Ambisonic audio (4ch)"
+        case .noAudio: return "No audio"
         }
     }
 }

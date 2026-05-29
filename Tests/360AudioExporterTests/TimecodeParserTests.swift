@@ -1,5 +1,5 @@
 import Testing
-@testable import _60AudioExporter
+@testable import Orbit360
 
 struct TimecodeParserTests {
     @Test func parsesFullTimecode() {

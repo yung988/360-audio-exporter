@@ -21,7 +21,7 @@ struct MediaDropZoneView: View {
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
             
-            Text("Podporované formáty: \(allowedExtensions.joined(separator: ", "))")
+            Text("Supported formats: \(allowedExtensions.joined(separator: ", "))")
                 .font(.caption2)
                 .foregroundColor(.gray)
         }
@@ -41,22 +41,36 @@ struct MediaDropZoneView: View {
         )
         .contentShape(Rectangle())
         .onTapGesture {
-            if let selectedURL = FileAccessService.selectFile(allowedExtensions: allowedExtensions) {
+            if mode == .export360Video && !isSecondary {
+                let selectedURLs = FileAccessService.selectFiles(allowedExtensions: allowedExtensions, limit: AppState.maxBatchSize)
+                Task {
+                    await appState.probeAssets(urls: selectedURLs, mode: mode)
+                }
+            } else if let selectedURL = FileAccessService.selectFile(allowedExtensions: allowedExtensions) {
                 Task {
                     await appState.probeAsset(url: selectedURL, mode: mode, isSecondary: isSecondary)
                 }
             }
         }
         .onDrop(of: [.fileURL], isTargeted: $isTargeted) { providers in
-            guard let provider = providers.first else { return false }
-            
-            _ = provider.loadObject(ofClass: URL.self) { url, error in
-                if let url = url {
-                    // Check extension
-                    let ext = url.pathExtension.lowercased()
-                    if allowedExtensions.isEmpty || allowedExtensions.contains(ext) {
-                        Task {
-                            await appState.probeAsset(url: url, mode: mode, isSecondary: isSecondary)
+            guard !providers.isEmpty else { return false }
+
+            let supportsBatch = mode == .export360Video && !isSecondary
+            let acceptedProviders = supportsBatch ? providers.prefix(AppState.maxBatchSize) : providers.prefix(1)
+
+            for provider in acceptedProviders {
+                _ = provider.loadObject(ofClass: URL.self) { url, error in
+                    if let url = url {
+                        let ext = url.pathExtension.lowercased()
+                        if allowedExtensions.isEmpty || allowedExtensions.contains(ext) {
+                            Task {
+                                await appState.probeAsset(
+                                    url: url,
+                                    mode: mode,
+                                    isSecondary: isSecondary,
+                                    appendToBatch: supportsBatch
+                                )
+                            }
                         }
                     }
                 }

@@ -27,8 +27,8 @@ public final class LiveExportEngine: ExportEngine {
                         percentage: 0,
                         currentTime: 0,
                         totalDuration: totalDuration,
-                        stage: "Příprava",
-                        message: "Sestavuji export...",
+                        stage: "Preparing",
+                        message: "Preparing export...",
                         detail: commandBuilder.summary(for: job)
                     ))
 
@@ -57,8 +57,8 @@ public final class LiveExportEngine: ExportEngine {
                                 totalDuration: totalDuration,
                                 estimatedRemainingSeconds: eta,
                                 speed: speed,
-                                stage: job.mode == .attachSpatialAudio ? "Slučování streamů" : "Kódování videa",
-                                message: job.mode == .attachSpatialAudio ? "Přidávám prostorové audio..." : "Exportuji 360° video...",
+                                stage: job.mode == .attachSpatialAudio ? "Merging streams" : "Encoding video",
+                                message: job.mode == .attachSpatialAudio ? "Attaching ambisonic audio..." : "Exporting 360° video...",
                                 detail: commandBuilder.summary(for: job)
                             )
                             continuation.yield(progress)
@@ -72,8 +72,8 @@ public final class LiveExportEngine: ExportEngine {
                         totalDuration: totalDuration,
                         estimatedRemainingSeconds: 0,
                         speed: nil,
-                        stage: "Dokončení",
-                        message: "Dokončeno"
+                        stage: "Finishing",
+                        message: "Done"
                     )
                     continuation.yield(completedProgress)
                     continuation.finish()

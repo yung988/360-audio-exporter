@@ -2,21 +2,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "360AudioExporter",
+    name: "Orbit360",
     platforms: [
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "360AudioExporter", targets: ["360AudioExporter"])
+        .executable(name: "Orbit360", targets: ["Orbit360"])
     ],
     targets: [
         .executableTarget(
-            name: "360AudioExporter",
+            name: "Orbit360",
             path: "Sources/360AudioExporter"
         ),
         .testTarget(
-            name: "360AudioExporterTests",
-            dependencies: ["360AudioExporter"],
+            name: "Orbit360Tests",
+            dependencies: ["Orbit360"],
             path: "Tests/360AudioExporterTests"
         )
     ]

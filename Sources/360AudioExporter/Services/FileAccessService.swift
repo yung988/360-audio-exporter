@@ -22,6 +22,26 @@ public final class FileAccessService {
         }
         return nil
     }
+
+    @MainActor
+    public static func selectFiles(allowedExtensions: [String], limit: Int) -> [URL] {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = true
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+
+        if !allowedExtensions.isEmpty {
+            panel.allowedContentTypes = allowedExtensions.compactMap { ext in
+                UTType(filenameExtension: ext)
+            }
+        }
+
+        let response = panel.runModal()
+        if response == .OK {
+            return Array(panel.urls.prefix(limit))
+        }
+        return []
+    }
     
     @MainActor
     public static func selectDirectory() -> URL? {

@@ -7,8 +7,8 @@ public enum ExportMode: String, CaseIterable, Identifiable, Codable {
     public var id: String { self.rawValue }
     public var label: String {
         switch self {
-        case .export360Video: return "Export 360° video"
-        case .attachSpatialAudio: return "Přidat prostorové audio"
+        case .export360Video: return "Export 360° Video"
+        case .attachSpatialAudio: return "Restore Spatial Audio"
         }
     }
 }
@@ -21,9 +21,9 @@ public enum AttachAudioMode: String, CaseIterable, Identifiable, Codable {
     public var id: String { self.rawValue }
     public var label: String {
         switch self {
-        case .replace: return "Nahradit audio"
-        case .add: return "Přidat jako další audio stopu"
-        case .keepStereoAndAddSpatial: return "Ponechat původní stereo + přidat spatial"
+        case .replace: return "Replace existing audio"
+        case .add: return "Add as an extra audio track"
+        case .keepStereoAndAddSpatial: return "Keep stereo + add ambisonic"
         }
     }
 }
